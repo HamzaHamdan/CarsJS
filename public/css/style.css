@@ -20,3 +20,8 @@ body {
 }.custom-button {
             width: 200px !important;
 }
+
+#vRows {
+    background-color: light grey;
+    border: 4px solid blue; 
+}
