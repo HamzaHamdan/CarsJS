@@ -1,0 +1,86 @@
+<div class="container mt-5">
+    <form action="/cars/add" method="POST" enctype="multipart/form-data" class="rounded p-4"
+        style="background-color: rgb(235, 235, 224, 0.5);">
+        <div class="row m-3">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="carMake">Make</label>
+                    <input type="text" class="form-control" id="carMake" name="carMake" placeholder="Enter car make">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="carModel">Model</label>
+                    <input type="text" class="form-control" id="carModel" name="carModel" placeholder="Enter car model">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row m-3">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="carYear">Year</label>
+                    <input type="text" class="form-control" id="carYear" name="carYear" placeholder="Enter car year">
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="carColor">Color</label>
+                    <input type="text" class="form-control" id="carColor" name="carColor" placeholder="Enter car color">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row m-3">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="carVinNum">VIN Number</label>
+                    <input type="text" class="form-control" id="carVinNum" name="carVinNum"
+                        placeholder="Enter car VIN number">
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="carMilage">Milage</label>
+                    <input type="text" class="form-control" id="carMilage" name="carMilage"
+                        placeholder="Enter car milage">
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="row m-3">
+            <div class="col-6">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend" style="background-color: rgb(235, 235, 224, 0.5);">
+                            <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                        </div>
+                        <div class="custom-file" style="background-color: rgb(235, 235, 224, 0.5);">
+                            <input type="file" class="custom-file-input" id="carImagesUploader" name="carImagesUploader"
+                                aria-describedby="inputGroupFileAddon01" multiple>
+                            <label class="custom-file-label" for="carImagesUploader">Upload car pictures</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row m-3">
+            <div class="col text-center">
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-lg custom-button text-white"
+                        style="background-color: #393939;">Submit</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>

@@ -1,27 +1,34 @@
-body {
-    background-image: url("https://i.imgur.com/EeuLN5h.jpg");
+.footerContainer {
+    background-color: #666666;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 65px;
+    position: absolute;
+    width: 100%;
 }
 
-.footerContainer{
-            background-color: #666666;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: 65px;
-            position: absolute;
-            width: 100%;
-}
-        
-.footerContainer p{
-            bottom: 0;
-            position: absolute;
-            text-align: center;
-            width: 100%;
-}.custom-button {
-            width: 200px !important;
+.footerContainer p {
+    bottom: 0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
 }
 
-#vRows {
-    background-color: light grey;
-    border: 4px solid blue; 
+.custom-button {
+    width: 200px !important;
+}
+
+.header-item:hover {
+    background-color: #666666;
+}
+
+.custom-button:hover {
+    background-color: #666666 !important;
+}
+
+@media (max-width:992px) {
+    .custom-button {
+        width: 100px !important;
+    }
 }
