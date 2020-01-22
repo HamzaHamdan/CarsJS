@@ -7,10 +7,10 @@ const mysql = require('mysql');
 
 const connection = mysql.createConnection({
   user: 'root',
-  password: 'Admin123$#',
+  password: '#Tortas77!',
   host: 'localhost',
   database: "cars_db",
-  port: 3315
+  port: 3306
 });
 
 //images upload to the server

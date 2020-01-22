@@ -30,3 +30,34 @@ CREATE TABLE images
 	PRIMARY KEY
     (id)
 );
+
+CREATE TABLE cars_make
+(
+    id int NOT NULL
+    AUTO_INCREMENT,
+    carMake varchar
+    (255) NOT NULL,
+	PRIMARY KEY
+    (id)
+);
+
+
+CREATE TABLE cars_model
+(
+    id int NOT NULL
+    AUTO_INCREMENT,
+    carMakeid INT,
+    carModel varchar
+    (255) NOT NULL,
+	PRIMARY KEY
+    (id)
+);
+
+CREATE TABLE cars_year
+(
+    id int NOT NULL
+    AUTO_INCREMENT,
+    carYear INT,
+	PRIMARY KEY
+    (id)
+);
