@@ -9,7 +9,12 @@ const router = express.Router();
 router.get('/', (req, res) => {
 
     let navBarLinks = [];
-    if (res.locals.currentUser) {
+    if (res.locals.currentUser && res.locals.currentUser == 1) {
+        console.log("not null");
+        navBarLinks.push({ hrefVal: '/admin/makes', linkName: 'Makes' });
+        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
+        navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
+    } else if (res.locals.currentUser && res.locals.currentUser != 1) {
         console.log("not null");
         navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
         navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });

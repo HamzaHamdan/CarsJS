@@ -67,15 +67,46 @@ $(document).ready(function () {
         }
     });
 
-    $("#addMakeBtn").on("click", function (event) {
+    $(".addMakeForm").on("submit", function (event) {
         event.preventDefault();
         var makeTextField = $("#makeTextField").val().trim();
-        $.ajax({
-            url: "/admin/addMake",
+
+        $.ajax("/admin/addMake", {
             type: "POST",
             data: {
                 'makeName': makeTextField
             }
-        });
+        }).then(
+            function () {
+                console.log("created new burger");
+                // Reload the page to get the updated list
+                location.reload();
+            }
+        );
     });
+
+
+
+    $(document).on("click", ".makeDeleteClass", function () {
+        var makeId = $(this).attr('custom-attribute');
+
+        $.ajax("/admin/deleteMake", {
+            type: "POST",
+            data: {
+                'makeId': makeId
+            }
+        }).then(
+            function () {
+                console.log("created new burger");
+                // Reload the page to get the updated list
+                location.reload();
+            }
+        );
+    });
+
+
+
+
+
+
 });

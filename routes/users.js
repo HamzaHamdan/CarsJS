@@ -10,9 +10,15 @@ const { forwardAuthenticated } = require('../config/auth');
 router.get('/login', forwardAuthenticated, (req, res) => {
 
     let navBarLinks = [];
-    if (res.locals.currentUser) {
+    if (res.locals.currentUser && res.locals.currentUser == 1) {
+        console.log("not null");
+        navBarLinks.push({ hrefVal: '/admin/makes', linkName: 'Makes' });
+        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
+        navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
+    } else if (res.locals.currentUser && res.locals.currentUser != 1) {
         console.log("not null");
         navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
+        navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
     } else {
         console.log("null");
         navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
@@ -27,7 +33,12 @@ router.get('/login', forwardAuthenticated, (req, res) => {
 // Register Page
 router.get('/register', forwardAuthenticated, (req, res) => {
     let navBarLinks = [];
-    if (res.locals.currentUser) {
+    if (res.locals.currentUser && res.locals.currentUser == 1) {
+        console.log("not null");
+        navBarLinks.push({ hrefVal: '/admin/makes', linkName: 'Makes' });
+        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
+        navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
+    } else if (res.locals.currentUser && res.locals.currentUser != 1) {
         console.log("not null");
         navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
         navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
@@ -62,13 +73,13 @@ router.post('/register', (req, res) => {
     }
 
     if (errors.length > 0) {
-        /* res.render('register', {
-            errors,
+        res.render('register', {
+            errors/* ,
             name,
             email,
             password,
-            password2
-        }); */
+            password2 */
+        });
 
         console.log("error!!!!!!!!!!");
 
@@ -118,10 +129,34 @@ router.post('/register', (req, res) => {
 
 // Login
 router.post('/login', (req, res, next) => {
-    passport.authenticate('local', {
-        successRedirect: '/cars/add',
-        failureRedirect: '/users/login'
-    })(req, res, next);
+
+
+
+
+    const { email, password } = req.body;
+    let errors = [];
+
+    if (!email || !password) {
+        errors.push({ msg: 'Please enter all fields' });
+    }
+
+    if (password.length < 6) {
+        errors.push({ msg: 'Password must be at least 6 characters' });
+    }
+
+    if (errors.length > 0) {
+        res.render('login', {
+            errors,
+            email,
+            password
+        });
+        console.log("error!!!!!!!!!!");
+    } else {
+        passport.authenticate('local', {
+            successRedirect: '/cars/add',
+            failureRedirect: '/users/login'
+        })(req, res, next);
+    }
 });
 
 // Logout

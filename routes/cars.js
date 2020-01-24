@@ -20,7 +20,12 @@ var upload = multer({ storage: storage });
 router.get('/add', ensureAuthenticated, (req, res) => {
 
   let navBarLinks = [];
-  if (res.locals.currentUser) {
+  if (res.locals.currentUser && res.locals.currentUser == 1) {
+    console.log("not null");
+    navBarLinks.push({ hrefVal: '/admin/makes', linkName: 'Makes' });
+    navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
+    navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
+  } else if (res.locals.currentUser && res.locals.currentUser != 1) {
     console.log("not null");
     navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
     navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
@@ -43,9 +48,14 @@ router.post('/add', upload.array('carImagesUploader', 5), (req, res, next) => {
 
 
   let navBarLinks = [];
-  if (res.locals.currentUser) {
+  if (res.locals.currentUser && res.locals.currentUser == 1) {
     console.log("not null");
-    navBarLinks.push({ hrefVal: '', linkName: 'Search' });
+    navBarLinks.push({ hrefVal: '/admin/makes', linkName: 'Makes' });
+    navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
+    navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
+  } else if (res.locals.currentUser && res.locals.currentUser != 1) {
+    console.log("not null");
+    navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
     navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
   } else {
     console.log("null");
