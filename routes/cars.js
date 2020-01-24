@@ -3,15 +3,7 @@ const router = express.Router();
 const Car = require('../models/Car');
 const multer = require('multer');
 
-const mysql = require('mysql');
-
-const connection = mysql.createConnection({
-  user: 'root',
-  password: '#Tortas77!',
-  host: 'localhost',
-  database: "cars_db",
-  port: 3306
-});
+const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
 //images upload to the server
 var storage = multer.diskStorage({
@@ -25,16 +17,47 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-router.get('/add', function (req, res) {
-  res.render('add');
+router.get('/add', ensureAuthenticated, (req, res) => {
+
+  let navBarLinks = [];
+  if (res.locals.currentUser) {
+    console.log("not null");
+    navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
+    navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
+  } else {
+    console.log("null");
+    navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
+    navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
+    navBarLinks.push({ hrefVal: '/users/register', linkName: 'Register' });
+    navBarLinks.push({ hrefVal: '/users/login', linkName: 'Login' });
+  };
+
+  res.render('add', { user: req.user, navBarLinks: navBarLinks });
 });
 
 router.post('/search', function (req, res) {
-  console.log(req.body);
   res.render('search');
 });
 
 router.post('/add', upload.array('carImagesUploader', 5), (req, res, next) => {
+
+
+  let navBarLinks = [];
+  if (res.locals.currentUser) {
+    console.log("not null");
+    navBarLinks.push({ hrefVal: '', linkName: 'Search' });
+    navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
+  } else {
+    console.log("null");
+    navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
+    navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
+    navBarLinks.push({ hrefVal: '/users/register', linkName: 'Register' });
+    navBarLinks.push({ hrefVal: '/users/login', linkName: 'Login' });
+  };
+
+  // global variable data defined in server.js
+  console.log(res.locals.currentUser);
+
   const files = req.files;
   if (!files) {
     const error = new Error('Please choose files');
@@ -42,13 +65,13 @@ router.post('/add', upload.array('carImagesUploader', 5), (req, res, next) => {
     return next(error);
   } else {
 
-    connection.connect(function (err) {
+    /* connection.connect(function (err) {
       if (err) {
         console.error("error connecting: " + err.stack);
         return;
       }
       console.log("connected as id " + connection.threadId);
-    });
+    }); */
 
 
     const newCar = {
@@ -60,27 +83,25 @@ router.post('/add', upload.array('carImagesUploader', 5), (req, res, next) => {
       carMilage: req.body.carMilage
     };
 
-    connection.query('insert into cars (carVinNum, carMake, carModel, carYear, carColor, carMilage) values (?,?,?,?,?, ?)', [newCar.carVinNum, newCar.carMake, newCar.carModel, newCar.carColor, newCar.carMilage, newCar.carYear], function (err, result) {
+    /* connection.query('insert into cars (carVinNum, carMake, carModel, carYear, carColor, carMilage) values (?,?,?,?,?, ?)', [newCar.carVinNum, newCar.carMake, newCar.carModel, newCar.carColor, newCar.carMilage, newCar.carYear], function (err, result) {
       if (err) throw err;
-    });
+    }); */
 
     const pathToImages = [];
 
     files.forEach(function (element) {
-      console.log(element);
 
-
-      connection.query('insert into images (carVinNum, image) values (?,?)', [newCar.carVinNum, element.path], function (err, result) {
+      /* connection.query('insert into images (carVinNum, image) values (?,?)', [newCar.carVinNum, element.path], function (err, result) {
         if (err) throw err;
-      });
+      }); */
 
       pathToImages.push(element.path.replace('\public', ''));
 
     });
 
-    res.render('detailedview', { newCar: newCar, images: pathToImages });
+    res.render('detailedview', { newCar: newCar, images: pathToImages, navBarLinks: navBarLinks });
 
   };
-})
+});
 
 module.exports = router;

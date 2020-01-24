@@ -5,37 +5,33 @@
             <div class="row">
 
                 <div class="col-3">
-                    <select class="form-control" style="height: 60px;" id="carMakeDDL">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                    <select class="form-control" style="height: 60px;" id="carsMakeDDL">
+                        <option value="" disabled selected hidden>Choose car make</option>
+                        {{#each carMakeArray}}
+                        <option>{{ this }}</option>
+                        {{/each}}
+
                     </select>
                 </div>
 
                 <div class="col-3">
-                    <select class="form-control" style="height: 60px;" id="carModelDDL">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                    <select class="form-control" style="height: 60px;" id="carsModelDDL">
+                        <option value="" disabled selected hidden>Choose car model</option>
+
                     </select>
                 </div>
 
                 <div class="col-3">
-                    <select class="form-control" style="height: 60px;" id="carYearDDL">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                    <select class="form-control" style="height: 60px;" id="carsYearDDL">
+                        <option value="" disabled selected hidden>Choose car year</option>
+                        {{#each result}}
+                        <option>{{ this }}</option>
+                        {{/each}}
                     </select>
                 </div>
 
                 <div class="col-3"><button type="submit" style="height: 60px;; background-color: #393939;"
-                        class="btn text-white form-control">Search</button>
+                        class="btn text-white form-control">Show Results!</button>
                 </div>
 
             </div>

@@ -19,45 +19,56 @@ CREATE TABLE cars
     (id)
 );
 
-CREATE TABLE images
-(
-    id int NOT NULL
-    AUTO_INCREMENT,
+    CREATE TABLE images
+    (
+        id int NOT NULL
+        AUTO_INCREMENT,
     carVinNum varchar
-    (255) NOT NULL,
+        (255) NOT NULL,
     image varchar
-    (255) NOT NULL,
+        (255) NOT NULL,
 	PRIMARY KEY
-    (id)
+        (id)
 );
 
-CREATE TABLE cars_make
-(
-    id int NOT NULL
-    AUTO_INCREMENT,
-    carMake varchar
-    (255) NOT NULL,
-	PRIMARY KEY
-    (id)
+        create table carMakes
+        (
+            id int
+            auto_increment not null,
+make varchar
+            (255) not null,
+createdAt timestamp,
+updatedAt timestamp,
+primary key
+            (id)
 );
 
-
-CREATE TABLE cars_model
-(
-    id int NOT NULL
-    AUTO_INCREMENT,
-    carMakeid INT,
-    carModel varchar
-    (255) NOT NULL,
-	PRIMARY KEY
-    (id)
+            create table carModels
+            (
+                id int
+                auto_increment not null,
+makeId varchar
+                (255) not null,
+model varchar
+                (255) not null,
+createdAt timestamp,
+updatedAt timestamp,
+primary key
+                (id)
 );
 
-CREATE TABLE cars_year
-(
-    id int NOT NULL
-    AUTO_INCREMENT,
-    carYear INT,
-	PRIMARY KEY
-    (id)
+                create table users
+                (
+                    id int
+                    auto_increment not null,
+name varchar
+                    (255) not null,
+email varchar
+                    (255) not null,
+password varchar
+                    (255) not null,
+createdAt timestamp,
+updatedAt timestamp,
+primary key
+                    (id)
 );
