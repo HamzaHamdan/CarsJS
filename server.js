@@ -56,7 +56,11 @@ app.use('/cars', carsUrlRoutes);
 
 app.use('/users', usersRoutes);
 
+<<<<<<< HEAD
 app.use('/api', apiRoutes);
+=======
+app.use('/api', require('./routes/apiRoutes'));
+>>>>>>> e29c8b34d9d77748c1406587631cdea9aeb3b938
 
 const PORT = process.env.PORT || 3000;
 
