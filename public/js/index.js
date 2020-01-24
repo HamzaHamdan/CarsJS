@@ -14,8 +14,23 @@ $(document).ready(function () {
                         value: 'All models',
                         text: 'All models'
                     }));
-                    data.forEach((key, value) => {
+
+                    data.carModelsArray.forEach((key, value) => {
+                        console.log(key, value);
                         $('#carsModelDDL').append($('<option/>', {
+                            value: value,
+                            text: key
+                        }));
+                    });
+
+                    $('#carsYearDDL').empty();
+                    $('#carsYearDDL').append($('<option/>', {
+                        value: 'All years',
+                        text: 'All years'
+                    }));
+                    data.carYearArray.forEach((key, value) => {
+                        console.log(key, value);
+                        $('#carsYearDDL').append($('<option/>', {
                             value: value,
                             text: key
                         }));

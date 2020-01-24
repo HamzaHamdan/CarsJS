@@ -65,15 +65,6 @@ router.post('/add', upload.array('carImagesUploader', 5), (req, res, next) => {
     return next(error);
   } else {
 
-    /* connection.connect(function (err) {
-      if (err) {
-        console.error("error connecting: " + err.stack);
-        return;
-      }
-      console.log("connected as id " + connection.threadId);
-    }); */
-
-
     const newCar = {
       carVinNum: req.body.carVinNum,
       carMake: req.body.carMake,
@@ -83,17 +74,9 @@ router.post('/add', upload.array('carImagesUploader', 5), (req, res, next) => {
       carMilage: req.body.carMilage
     };
 
-    /* connection.query('insert into cars (carVinNum, carMake, carModel, carYear, carColor, carMilage) values (?,?,?,?,?, ?)', [newCar.carVinNum, newCar.carMake, newCar.carModel, newCar.carColor, newCar.carMilage, newCar.carYear], function (err, result) {
-      if (err) throw err;
-    }); */
-
     const pathToImages = [];
 
     files.forEach(function (element) {
-
-      /* connection.query('insert into images (carVinNum, image) values (?,?)', [newCar.carVinNum, element.path], function (err, result) {
-        if (err) throw err;
-      }); */
 
       pathToImages.push(element.path.replace('\public', ''));
 

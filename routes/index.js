@@ -2,6 +2,7 @@ const express = require('express');
 const Car = require('../models/Car');
 const CarMake = require('../models/CarMake');
 const CarModel = require('../models/CarModel');
+const sequelize = require('../config/database')
 
 const router = express.Router();
 
@@ -29,7 +30,24 @@ router.get('/', (req, res) => {
                 carMakeArray.push(element.dataValues.make);
             });
 
-            res.render('index', { carMakeArray: carMakeArray, navBarLinks: navBarLinks });
+            /* Car.aggregate('carYear', 'DISTINCT', { plain: false }).then((yearResult) => {
+
+                console.log(yearResult);
+
+                res.render('index', { carMakeArray: carMakeArray, yearResult: yearResult, navBarLinks: navBarLinks });
+            }); */
+
+
+            Car.findAll({
+                attributes: [[sequelize.fn('DISTINCT', sequelize.col('carYear')), 'carYear']],
+                where: {}
+            }).then(data => {
+                let yearResult = [];
+                yearResult.push(data[0].dataValues.carYear);
+                res.render('index', { carMakeArray: carMakeArray, yearResult: yearResult, navBarLinks: navBarLinks });
+                console.log(yearResult);
+            });
+
 
         })
         .catch(err => console.log(err));
@@ -46,7 +64,21 @@ router.post('/getMakeModels', function (req, res) {
                 result.forEach(function (element) {
                     carModelsArray.push(element.dataValues.model);
                 });
-                res.send(carModelsArray);
+
+
+                let carYearArray = [];
+                Car.findAll({
+                    attributes: [[sequelize.fn('DISTINCT', sequelize.col('carYear')), 'carYear']],
+                    where: { makeId: makeName }
+                }).then(data => {
+                    data.forEach((element) => {
+                        console.log(element.dataValues.carYear);
+                        carYearArray.push(element.dataValues.carYear);
+                    });
+                    //console.log(data);
+                    res.send({ carModelsArray: carModelsArray, carYearArray: carYearArray });
+                });
+
             });
         });
 });

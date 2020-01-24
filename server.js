@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const carsUrlRoutes = require('./routes/cars.js');
 const usersRoutes = require('./routes/users.js');
+const apiRoutes = require('./routes/apiRoutes');
 const indexRoutes = require('./routes/index.js');
 const passport = require('passport');
 const flash = require('connect-flash');
@@ -54,6 +55,8 @@ app.use('/', indexRoutes);
 app.use('/cars', carsUrlRoutes);
 
 app.use('/users', usersRoutes);
+
+app.use('/api', apiRoutes);
 
 const PORT = process.env.PORT || 3000;
 
