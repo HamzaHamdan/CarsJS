@@ -99,7 +99,10 @@ router.post('/add', upload.array('carImagesUploader', 5), (req, res, next) => {
 
     });
 
-    res.render('detailedview', { newCar: newCar, images: pathToImages, navBarLinks: navBarLinks });
+    Car.create(newCar).then(() => {
+      res.render('detailedview', { newCar: newCar, images: pathToImages, navBarLinks: navBarLinks });
+    });
+
 
   };
 });

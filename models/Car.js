@@ -7,7 +7,7 @@ const Car = db.define('car', {
     primaryKey: true,
     autoIncrement: true
   },
-  vin: {
+  carVinNum: {
     type: Sequelize.STRING
   },
   makeId: {
@@ -16,16 +16,16 @@ const Car = db.define('car', {
   modelId: {
     type: Sequelize.STRING
   },
-  year: {
+  carYear: {
     type: Sequelize.STRING
   },
-  color: {
+  carColor: {
     type: Sequelize.STRING
   },
-  milage: {
+  carMilage: {
     type: Sequelize.STRING
   },
-  price: {
+  carPrice: {
     type: Sequelize.STRING
   }
 });
