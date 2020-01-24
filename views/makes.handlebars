@@ -1,0 +1,36 @@
+<div class="container mt-5">
+    <div class="mt-5 p-5">
+
+        <div class="row my-4">
+
+            <div class="col-9">
+                <input type="text" style="height: 60px;; background-color: #393939;" class="form-control text-white"
+                    placeholder="Enter make" id="makeTextField">
+            </div>
+
+            <div class="col-3"><button type="submit" style="height: 60px;; background-color: #393939;"
+                    class="btn text-white form-control" id="addMakeBtn">Add Make!</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                {{#each carMakesArray}}
+                {{#unless @first}}
+
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ this }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                        custom-attribute="{{this}}" id="deleteMakeItem">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                {{/unless}}
+                {{/each}}
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>

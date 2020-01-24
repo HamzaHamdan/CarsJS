@@ -65,7 +65,17 @@ $(document).ready(function () {
                 }
             });
         }
+    });
 
-
+    $("#addMakeBtn").on("click", function (event) {
+        event.preventDefault();
+        var makeTextField = $("#makeTextField").val().trim();
+        $.ajax({
+            url: "/admin/addMake",
+            type: "POST",
+            data: {
+                'makeName': makeTextField
+            }
+        });
     });
 });

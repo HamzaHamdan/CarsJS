@@ -6,6 +6,7 @@ const carsUrlRoutes = require('./routes/cars.js');
 const usersRoutes = require('./routes/users.js');
 const apiRoutes = require('./routes/apiRoutes');
 const indexRoutes = require('./routes/index.js');
+const adminRoutes = require('./routes/adminRoutes.js');
 const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
@@ -56,11 +57,9 @@ app.use('/cars', carsUrlRoutes);
 
 app.use('/users', usersRoutes);
 
-<<<<<<< HEAD
 app.use('/api', apiRoutes);
-=======
-app.use('/api', require('./routes/apiRoutes'));
->>>>>>> e29c8b34d9d77748c1406587631cdea9aeb3b938
+
+app.use('/admin', adminRoutes);
 
 const PORT = process.env.PORT || 3000;
 
