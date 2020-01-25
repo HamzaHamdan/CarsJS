@@ -1,11 +1,36 @@
+<form class="container mt-5">
 
-
-
-
-<div class="container">
-    <div class="row">
-        <div class="col col-md-3 mt-2">
-            <input type="text" class="form-control" width="100%" id="dateFieldSearchFrom" placeholder="From date">
+    <div class="form-group row">
+        <label for="inputEmail" class="col-sm-2 col-form-label">Email:</label>
+        <div class="col-sm-10">
+            <input type="email" class="form-control" id="inputEmail" placeholder="email@example.com">
         </div>
     </div>
-</div>
+
+    <div class="form-group row">
+        <label for="input" class="col-sm-2 col-form-label">Select a date to test drive your new ride!</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="dateFieldSearchFrom" placeholder="Select Date">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <input type="text-area" readonly class="form-control-plaintext" id="text-area" value="VIN#">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="exampleFormControlTextarea1" class="col-sm-2 col-form-label">Message:</label>
+        <div class="col-sm-10">
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col text-center">
+            <button type="submit" class="btn btn-primary">Drive!</button>
+        </div>
+    </div>
+
+</form>
