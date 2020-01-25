@@ -93,21 +93,6 @@ values
         where make = "Mercedes"), "Benz G-Class");
 
 insert into carModels(makeid,model)
-values ((select id from carMakes where make="Audi"),'Q5');
-
-insert into carModels(makeid,model)
-values ((select id from carMakes where make="Audi"),'A3');
-
-insert into carModels(makeid,model)
-values ((select id from carMakes where make="Honda"),'Accord');
-
-insert into carModels(makeid,model)
-values ((select id from carMakes where make="Honda"),'Civic');
-
-insert into carModels(makeid,model)
-values ((select id from carMakes where make="Honda"),'Fit');
-
-insert into carModels(makeid,model)
 values ((select id from carMakes where make="Mercedes"),'Benz S-Class');
 
 insert into carModels(makeid,model)

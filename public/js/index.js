@@ -105,14 +105,7 @@ $(document).ready(function () {
     });
 
 
-    $("#book-test-drive").on("click", function () {
-        console.log("booked!!!")
-        $.ajax("/cars/booking", {
-            type: "POST"
-        }).then(function () {
-            console.log("request");
-        });
-    });
+
 
 
 

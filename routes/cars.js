@@ -99,10 +99,9 @@ router.post('/add', upload.array('carImagesUploader', 5), (req, res, next) => {
   };
 });
 
-router.get('/booking', (req, res) => {
+router.post('/bookings', (req, res) => {
   console.log("I CLICKED IT!");
   res.render('bookdrive');
 });
-
 
 module.exports = router;
