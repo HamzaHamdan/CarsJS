@@ -1,5 +1,4 @@
-delete from carmakes;
-delete from carmodels;
+
 insert into carMakes
     (make)
 values
@@ -24,117 +23,96 @@ insert into carModels
     (makeId, model)
 values
     ((select id
-        from carmakes
+        from carMakes
         where make = "BMW"), "330i");
 insert into carModels
     (makeId, model)
 values
     ((select id
-        from carmakes
+        from carMakes
         where make = "BMW"), "328i");
 insert into carModels
     (makeId, model)
 values
     ((select id
-        from carmakes
+        from carMakes
         where make = "BMW"), "528i");
 insert into carModels
     (makeId, model)
 values
     ((select id
-        from carmakes
+        from carMakes
         where make = "Honda"), "Accord");
 insert into carModels
     (makeId, model)
 values
     ((select id
-        from carmakes
+        from carMakes
         where make = "Honda"), "Civic");
 insert into carModels
     (makeId, model)
 values
     ((select id
-        from carmakes
+        from carMakes
         where make = "Honda"), "Fit");
         insert into carModels
     (makeId, model)
 values
     ((select id
-        from carmakes
+        from carMakes
         where make = "Audi"), "Q5");
 insert into carModels
     (makeId, model)
 values
     ((select id
-        from carmakes
+        from carMakes
         where make = "Audi"), "A3");
 insert into carModels
     (makeId, model)
 values
     ((select id
-        from carmakes
+        from carMakes
         where make = "Audi"), "A6");
 insert into carModels
     (makeId, model)
 values
     ((select id
-        from carmakes
+        from carMakes
         where make = "Mercedes"), "AMG GT");
 insert into carModels
     (makeId, model)
 values
     ((select id
-        from carmakes
+        from carMakes
         where make = "Mercedes"), "Benz S-Class");
 insert into carModels
     (makeId, model)
 values
     ((select id
-        from carmakes
+        from carMakes
         where make = "Mercedes"), "Benz G-Class");
 
+insert into carModels(makeid,model)
+values ((select id from carMakes where make="Audi"),'Q5');
 
---Added models.--
+insert into carModels(makeid,model)
+values ((select id from carMakes where make="Audi"),'A3');
 
-SELECT * FROM cars_db.carmodels;
-select * from carmodels;
+insert into carModels(makeid,model)
+values ((select id from carMakes where make="Honda"),'Accord');
 
-delete from carmodels where id in (5,6);
-commit;
-insert into carmodels(makeid,model)
-values ((select id from carmakes where make="Audi"),'Q5');
+insert into carModels(makeid,model)
+values ((select id from carMakes where make="Honda"),'Civic');
 
-insert into carmodels(makeid,model)
-values ((select id from carmakes where make="Audi"),'A3');
+insert into carModels(makeid,model)
+values ((select id from carMakes where make="Honda"),'Fit');
 
-insert into carmodels(makeid,model)
-values ((select id from carmakes where make="Honda"),'Accord');
+insert into carModels(makeid,model)
+values ((select id from carMakes where make="Mercedes"),'Benz S-Class');
 
-insert into carmodels(makeid,model)
-values ((select id from carmakes where make="Honda"),'Civic');
+insert into carModels(makeid,model)
+values ((select id from carMakes where make="Mercedes"),'Benz G-Class');
 
-insert into carmodels(makeid,model)
-values ((select id from carmakes where make="Honda"),'Fit');
-
-insert into carmodels(makeid,model)
-values ((select id from carmakes where make="Mercedes"),'Benz S-Class');
-
-insert into carmodels(makeid,model)
-values ((select id from carmakes where make="Mercedes"),'Benz G-Class');
-
-insert into carmodels(makeid,model)
-values ((select id from carmakes where make="Mercedes"),'AMG GT');
-
-
-
-
-
-
-
-select * from carmodels;
-DELETE FROM CARMAKES WHERE ID > 5;
-COMMIT;
-
-
-
+insert into carModels(makeid,model)
+values ((select id from carMakes where make="Mercedes"),'AMG GT');
 

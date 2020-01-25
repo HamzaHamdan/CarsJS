@@ -5,16 +5,22 @@ CREATE TABLE cars
 (
     id int NOT NULL
     AUTO_INCREMENT,
-	make varchar
+	makeId varchar
     (255) NOT NULL,
-	model varchar
+	modelId varchar
     (255) NOT NULL,
-    year varchar
+    carYear varchar
     (255) NOT NULL,
-    color varchar
+    carColor varchar
     (255) NOT NULL,
-    milage varchar
+    carMilage varchar
     (255) NOT NULL,
+	carPrice varchar
+    (255) NOT NULL,
+	carVinNum varchar
+    (255) NOT NULL,
+	createdAt timestamp,
+	updatedAt timestamp,
 	PRIMARY KEY
     (id)
 );
