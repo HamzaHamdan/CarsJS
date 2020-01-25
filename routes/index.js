@@ -48,7 +48,7 @@ router.get('/', (req, res) => {
                 where: {}
             }).then(data => {
                 let yearResult = [];
-                yearResult.push(data[0].dataValues.carYear);
+                yearResult.push(1952);
                 res.render('index', { carMakeArray: carMakeArray, yearResult: yearResult, navBarLinks: navBarLinks });
                 console.log(yearResult);
             });
