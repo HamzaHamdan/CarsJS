@@ -1,15 +1,17 @@
-<div class="container mt-5">
+<div class="container my-5">
+
     <div class="mt-5 p-5">
-        <form action="/admin/addMake" method="POST" class="addMakeForm">
+        {{> errors}}
+        <form action="/admin/addMake" method="POST">
             <div class="row my-4">
 
                 <div class="col-9">
                     <input type="text" style="height: 60px;; background-color: #393939;" class="form-control text-white"
-                        placeholder="Enter make" id="makeTextField">
+                        placeholder="Enter make" name="makeName" id="makeName">
                 </div>
 
                 <div class="col-3"><button type="submit" style="height: 60px;; background-color: #393939;"
-                        class="btn text-white form-control" id="addMakeBtn">Add Make!</button>
+                        class="btn text-white form-control">Add Make!</button>
                 </div>
 
             </div>
@@ -17,17 +19,18 @@
         <div class="row">
             <div class="col">
                 {{#each carMakesArray}}
-                {{#unless @first}}
+                {{!-- {{#unless @first}} --}}
 
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>{{ this }}</strong>
+                    <p><strong>{{ this.make }}</strong></p>
+                    <p>Creation Date: {{ this.createdAt }}</p>
                     <button type="button" class="close makeDeleteClass" data-dismiss="alert" aria-label="Close"
-                        custom-attribute="{{this}}" id="deleteMakeItem">
+                        custom-attribute="{{this.id}}" id="deleteMakeItem">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
 
-                {{/unless}}
+                {{!-- {{/unless}} --}}
                 {{/each}}
             </div>
         </div>

@@ -1,0 +1,50 @@
+<div class="container my-5">
+    <div class="mt-5 p-5">
+        {{> errors}}
+        <form action="/admin/addModel" method="POST">
+            <div class="row my-4">
+
+                <div class="col-4">
+                    <select class="form-control text-white" id="makeId" name="makeId"
+                        style="height: 60px;; background-color: #393939;">
+                        {{#each carMakesArray}}
+                        <option value="{{ this.id }}">{{ this.make }}</option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="col-4">
+                    <input type="text" style="height: 60px;; background-color: #393939;" class="form-control text-white"
+                        placeholder="Enter model" id="modelName" name="modelName">
+                </div>
+
+                <div class="col-4"><button type="submit" style="height: 60px;; background-color: #393939;"
+                        class="btn text-white form-control">Add Model!</button>
+                </div>
+
+            </div>
+        </form>
+        <div class="row">
+            <div class="col">
+                {{#each carMakesModelsArray}}
+                {{!-- {{#unless @first}} --}}
+
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    <p><strong>{{ this.model }}</strong></p>
+                    <hr>
+                    <p>Make: {{ this.carMake }}</p>
+                    <p>Created At: {{ this.createdAt }}</p>
+                    <button type="button" class="close modelDeleteClass" data-dismiss="alert" aria-label="Close"
+                        custom-attribute="{{this.id}}">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                {{!-- {{/unless}} --}}
+                {{/each}}
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>

@@ -1,23 +1,18 @@
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('user', {
+    const Image = sequelize.define('image', {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
             defaultValue: DataTypes.UUIDV4,
             allowNull: false
         },
-        name: {
+        carVinNum: {
             type: DataTypes.STRING,
             required: true
         },
-        email: {
+        image: {
             type: DataTypes.STRING,
-            required: true
-        },
-        password: {
-            type: DataTypes.STRING,
-            required: true
         }
     });
-    return User;
+    return Image;
 };

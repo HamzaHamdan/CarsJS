@@ -1,15 +1,17 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
 const path = require('path');
-const carsUrlRoutes = require('./routes/cars.js');
-const usersRoutes = require('./routes/users.js');
+const carsUrlRoutes = require('./routes/carsRoutes.js');
+const usersRoutes = require('./routes/usersRoutes.js');
 const apiRoutes = require('./routes/apiRoutes');
-const indexRoutes = require('./routes/index.js');
+const indexRoutes = require('./routes/indexRoutes.js');
 const adminRoutes = require('./routes/adminRoutes.js');
 const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
+const db = require('./config/database.js');
 
 const app = express();
 
@@ -63,4 +65,8 @@ app.use('/admin', adminRoutes);
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, console.log(`Server listening on port ${PORT}`));
+app.use(morgan('combined'));
+
+db.sequelize.sync().then(() => {
+  app.listen(PORT, console.log(`Server listening on port ${PORT}`));
+});

@@ -1,36 +1,52 @@
-<form class="container mt-5">
+<div class="container my-5">
+    {{> errors}}
+    <form action="/cars/scheduleTestDrive" method="POST" id="postTestDriveSchedule" name="postTestDriveSchedule">
 
-    <div class="form-group row">
-        <label for="inputEmail" class="col-sm-2 col-form-label">Email:</label>
-        <div class="col-sm-10">
-            <input type="email" class="form-control" id="inputEmail" placeholder="email@example.com">
+        <div class="form-group row">
+            <label for="customerEmail" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" id="customerEmail" name="customerEmail"
+                    placeholder="Email Address">
+            </div>
         </div>
-    </div>
 
-    <div class="form-group row">
-        <label for="input" class="col-sm-2 col-form-label">Select a date to test drive your new ride!</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="dateFieldSearchFrom" placeholder="Select Date">
+        <div class="form-group row">
+            <label for="dateFieldSearchFrom" class="col-sm-2 col-form-label">Preferred Date</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="dateFieldSearchFrom" id="dateFieldSearchFrom"
+                    placeholder="Date">
+            </div>
         </div>
-    </div>
 
-    <div class="form-group row">
-        <div class="col-sm-10">
-            <input type="text-area" readonly class="form-control-plaintext" id="text-area" value="VIN#">
+        <div class="form-group row">
+            <label for="carId" class="col-sm-2 col-form-label">Car ID</label>
+            <div class="col-sm-10">
+                <input type="text" readonly name="carId" class="form-control-plaintext" id="carId"
+                    value="{{ carDetailsObject.carId }}">
+            </div>
         </div>
-    </div>
 
-    <div class="form-group row">
-        <label for="exampleFormControlTextarea1" class="col-sm-2 col-form-label">Message:</label>
-        <div class="col-sm-10">
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        <div class="form-group row">
+            <label for="vinNumber" class="col-sm-2 col-form-label">Vin Number</label>
+            <div class="col-sm-10">
+                <input type="text" readonly name="vinNumber" class="form-control-plaintext" id="vinNumber"
+                    value="{{ carDetailsObject.vinNum }}">
+            </div>
         </div>
-    </div>
 
-    <div class="form-group row">
-        <div class="col text-center">
-            <button type="submit" class="btn btn-primary">Drive!</button>
+        <div class="form-group row">
+            <label for="notesField" class="col-sm-2 col-form-label">Notes</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="notesField" id="notesField" placeholder="Notes...">
+            </div>
         </div>
-    </div>
 
-</form>
+        <div class="row">
+            <div class="col text-center">
+                <button type="submit" class="btn btn-primary">Submit!</button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

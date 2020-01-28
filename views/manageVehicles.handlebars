@@ -1,19 +1,19 @@
 <div class="container my-5">
     <div class="mt-5 p-5 bg-dark">
 
-        {{#each carsArray}}
+        {{#each vehiclesArray}}
         <div class="row">
             <div class="col">
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <p><strong>{{ this.id }}</strong></p>
+                    <p><strong>{{ this.carVinNum }}</strong></p>
                     <hr>
                     <div class="row">
                         <div class="col-12">
                             <div id="details-section">
 
                                 <div class="row mt-2">
-                                    <div class="col-6">Make: {{this.make}}</div>
-                                    <div class="col-6">Model: {{this.model}}</div>
+                                    <div class="col-6">Make: {{this.carMakeId}}</div>
+                                    <div class="col-6">Model: {{this.carModelId}}</div>
                                 </div>
                                 <div class="row mt-2">
                                     <div class="col-6">Year: {{this.carYear}}</div>
@@ -23,23 +23,14 @@
                                     <div class="col-6">Color: {{this.carColor}}</div>
                                     <div class="col-6">Price: {{this.carPrice}}</div>
                                 </div>
-                                <div class="row mt-2">
-                                    <div class="col-6">Vin Number: {{this.carVinNum}}</div>
-                                    <div class="col-6"></div>
-                                </div>
-                                <div class="row mt-5">
-                                    <div class="col-4 text-center"></div>
-                                    <div class="col-4">
-                                        <a href="/cars/viewMoreDetails/{{ this.id }}"
-                                            class="btn btn-lg text-white form-control"
-                                            style="background-color: #393939;">View More
-                                            Details!</a>
-                                    </div>
-                                    <div class="col-4"></div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
+                    <button type="button" class="close carDeleteClass" data-dismiss="alert" aria-label="Close"
+                        custom-attribute="{{this.id}}" id="deleteMakeItem">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             </div>
         </div>

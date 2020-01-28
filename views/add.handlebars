@@ -1,17 +1,31 @@
-<div class="container mt-5">
-    <form action="/cars/add" method="POST" enctype="multipart/form-data" class="rounded p-4"
+<div class="container my-5">
+
+    {{> success}}
+    {{> errors}}
+
+    <form action="/cars/detailedview" method="POST" enctype="multipart/form-data" class="rounded p-4"
         style="background-color: rgb(235, 235, 224, 0.5);">
         <div class="row m-3">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="carMake">Make</label>
-                    <input type="text" class="form-control" id="carMake" name="carMake" placeholder="Enter car make">
+                    <label for="addCarMakeDDL">Make</label>
+                    <select class="form-control" id="addCarMakeDDL" name="addCarMakeDDL">
+                        <option value="" disabled selected hidden>Choose car make</option>
+                        {{#each carMakeArray}}
+                        <option value="{{this.carMakeId}}">{{ this.carMakeName }}</option>
+                        {{/each}}
+                    </select>
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label for="carModel">Model</label>
-                    <input type="text" class="form-control" id="carModel" name="carModel" placeholder="Enter car model">
+                    <label for="addCarModelDDL">Model</label>
+                    <select class="form-control" id="addCarModelDDL" name="addCarModelDDL">
+                        <option value="" disabled selected hidden>Choose car model</option>
+                        {{!-- {{#each carModelsArray}}
+                        <option value="{{ this.modelName }}">{{ this.modelName }}</option>
+                        {{/each}} --}}
+                    </select>
                 </div>
             </div>
 

@@ -1,32 +1,30 @@
-<div class="container" style="margin-top: 200px;">
+<div class="container searchForm">
+    {{> errors}}
+    {{> success}}
     <form action="/cars/search" method="POST">
         <div class="form-group">
 
             <div class="row">
 
                 <div class="col-3">
-                    <select class="form-control" style="height: 60px;" id="carsMakeDDL">
-                        <option value="" disabled selected hidden>Choose car make</option>
+                    <select class="form-control" style="height: 60px;" id="carsMakeDDL" name="carsMakeDDL">
+                        <option value="" disabled selected hidden>Choose a Make</option>
                         {{#each carMakeArray}}
-                        <option>{{ this }}</option>
+                        <option value="{{this.carMakeId}}">{{ this.carMake }}</option>
                         {{/each}}
 
                     </select>
                 </div>
 
                 <div class="col-3">
-                    <select class="form-control" style="height: 60px;" id="carsModelDDL">
-                        <option value="" disabled selected hidden>Choose car model</option>
-
+                    <select class="form-control" style="height: 60px;" id="carsModelDDL" name="carsModelDDL">
+                        <option class="modelListItems" value="" disabled selected hidden>Choose a Model</option>
                     </select>
                 </div>
 
                 <div class="col-3">
-                    <select class="form-control" style="height: 60px;" id="carsYearDDL">
-                        <option value="" disabled selected hidden>Choose car year</option>
-                        {{#each yearResult}}
-                        <option>{{ this }}</option>
-                        {{/each}}
+                    <select class="form-control" style="height: 60px;" id="carsYearDDL" name="carsYearDDL">
+                        <option value="" disabled selected hidden>Choose a Year</option>
                     </select>
                 </div>
 

@@ -2,7 +2,6 @@
 
     <div class="mt-5 p-5">
 
-
         <div class="row">
 
             <div class="col-12">
@@ -10,7 +9,7 @@
                 <div id="carouselControls" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
 
-                        {{#each images}}
+                        {{#each pathToImages}}
 
                         {{#if @first}}
                         <div class="carousel-item active">
@@ -37,28 +36,28 @@
 
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-4">
             <div class="col-12" style="background-color: rgba(232, 232, 232, 0.5)">
                 <div id="details-section">
 
                     <div class="row mt-4">
                         <div class="col-2"></div>
-                        <div class="col-4">Make: {{newCar.make}}</div>
-                        <div class="col-4">Model: {{newCar.model}}</div>
+                        <div class="col-4">Make: {{carObject.make}}</div>
+                        <div class="col-4">Model: {{carObject.model}}</div>
                         <div class="col-2"></div>
                     </div>
 
                     <div class="row mt-4">
                         <div class="col-2"></div>
-                        <div class="col-4">Year: {{newCar.carYear}}</div>
-                        <div class="col-4">Color: {{newCar.carColor}}</div>
+                        <div class="col-4">Year: {{carObject.carYear}}</div>
+                        <div class="col-4">Color: {{carObject.carColor}}</div>
                         <div class="col-2"></div>
                     </div>
 
                     <div class="row mt-4">
                         <div class="col-2"></div>
-                        <div class="col-4">Milage: {{newCar.carMilage}}</div>
-                        <div class="col-4">VIN Number: {{newCar.carVinNum}}
+                        <div class="col-4">Milage: {{carObject.carMilage}}</div>
+                        <div class="col-4">VIN Number: {{carObject.carVinNum}}
                         </div>
                         <div class="col-2"></div>
                     </div>
@@ -66,8 +65,10 @@
                     <div class="row mt-4">
                         <div class="col-2"></div>
                         <div class="col-8">
-                            <a href="/" class="btn btn-lg my-4 text-white form-control"
-                                style="background-color: #393939;">Back to Home Page</a>
+                            <a href="/cars/bookings/{{ carObject.id }}/{{ carObject.carVinNum }}"
+                                class="btn btn-lg my-4 text-white form-control" style="background-color: #393939;">Book
+                                your
+                                test drive!</a>
                         </div>
                         <div class="col-2"></div>
                     </div>

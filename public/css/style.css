@@ -32,3 +32,56 @@
         width: 100px !important;
     }
 }
+
+.searchForm {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+input[type=email] {
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    height: 52px;
+    font-size: 16px;
+    background-color: white;
+    background-image: url('/images/email.ico');
+    background-position: 10px; 
+    background-repeat: no-repeat;
+    padding: 18px 50px 18px 50px;
+  }
+
+  input[type=password] {
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    height: 52px;
+    font-size: 16px;
+    background-color: white;
+    background-image: url('/images/password.ico');
+    background-position: 10px; 
+    background-repeat: no-repeat;
+    padding: 15px 50px 18px 50px;
+  }
+
+  input[type=name] {
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    height: 52px;
+    font-size: 16px;
+    background-color: white;
+    background-image: url('/images/user.ico');
+    background-position: 10px; 
+    background-repeat: no-repeat;
+    padding: 15px 50px 18px 50px;
+  }
+
+  img {
+    height: 45vh;
+  }

@@ -1,0 +1,47 @@
+<div class="container my-5">
+    <div class="mt-5 p-5 bg-light">
+
+        <div class="row">
+            <div class="col">
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>VIN Number</th>
+                            <th>Vehicle ID</th>
+                            <th>Test Drive Date</th>
+                            <th>Customer Email</th>
+                            <th>Notes</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {{#each schedulesArray}}
+
+                        <tr>
+                            <td>{{ this.vinNumber }}</td>
+                            <td><a href="/cars/viewmoredetails/{{ this.carId }}">{{ this.carId }}</a></td>
+                            <td>{{ this.date }}</td>
+                            <td>{{ this.email }}</td>
+                            <td>{{ this.notes }}</td>
+                            <td>
+                                <button type="button" class="testDriveDeleteClass btn btn-outline-danger btn-sm"
+                                    custom-attribute="{{this.id}}" id="deleteTestDriveItem">
+                                    DELETE
+                                </button>
+                            </td>
+                        </tr>
+
+                        {{/each}}
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</div>
+</div>

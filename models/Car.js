@@ -1,33 +1,31 @@
-const Sequelize = require('sequelize');
-const db = require('../config/database');
-
-const Car = db.define('car', {
-  id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  carVinNum: {
-    type: Sequelize.STRING
-  },
-  makeId: {
-    type: Sequelize.STRING
-  },
-  modelId: {
-    type: Sequelize.STRING
-  },
-  carYear: {
-    type: Sequelize.STRING
-  },
-  carColor: {
-    type: Sequelize.STRING
-  },
-  carMilage: {
-    type: Sequelize.STRING
-  },
-  carPrice: {
-    type: Sequelize.STRING
-  }
-});
-
-module.exports = Car;
+module.exports = (sequelize, DataTypes) => {
+  const Car = sequelize.define('car', {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false
+    },
+    carVinNum: {
+      type: DataTypes.STRING,
+      required: true
+    },
+    carYear: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    carColor: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    carMilage: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    carPrice: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
+  });
+  return Car;
+};
