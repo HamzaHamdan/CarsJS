@@ -4,64 +4,17 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const db = require('../config/database');
 const { forwardAuthenticated } = require('../config/auth');
+const utils = require('../utils/utils');
 
 // Login Page
 router.get('/login', forwardAuthenticated, (req, res) => {
 
-    let navBarLinks = [];
-    if (res.locals.currentUser && res.locals.currentUser == '9953274d-da9b-49d1-bc02-ae91ce553561') {
-        console.log("user1:" + res.locals.currentUser);
-        navBarLinks.push({ hrefVal: '/admin/makes', linkName: 'Makes' });
-        navBarLinks.push({ hrefVal: '/admin/models', linkName: 'Models' });
-        navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'Vehicles' });
-        navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-        navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-    } else if (res.locals.currentUser && res.locals.currentUser != '9953274d-da9b-49d1-bc02-ae91ce553561') {
-        console.log("user2:" + res.locals.currentUser);
-        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-        navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-        navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'My Vehicles' });
-        navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-        navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-    } else {
-        console.log("user3:" + res.locals.currentUser);
-        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-        navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-        navBarLinks.push({ hrefVal: '/users/register', linkName: 'Register' });
-        navBarLinks.push({ hrefVal: '/users/login', linkName: 'Login' });
-    };
-
-    res.render('login', { navBarLinks: navBarLinks });
+    res.render('login', { navBarLinks: utils.navBarFiller(res) });
 });
 
 // Register Page
 router.get('/register', forwardAuthenticated, (req, res) => {
-    let navBarLinks = [];
-    if (res.locals.currentUser && res.locals.currentUser == '9953274d-da9b-49d1-bc02-ae91ce553561') {
-        console.log("user1:" + res.locals.currentUser);
-        navBarLinks.push({ hrefVal: '/admin/makes', linkName: 'Makes' });
-        navBarLinks.push({ hrefVal: '/admin/models', linkName: 'Models' });
-        navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'Vehicles' });
-        navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-        navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-    } else if (res.locals.currentUser && res.locals.currentUser != '9953274d-da9b-49d1-bc02-ae91ce553561') {
-        console.log("user2:" + res.locals.currentUser);
-        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-        navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-        navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'My Vehicles' });
-        navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-        navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-    } else {
-        console.log("user3:" + res.locals.currentUser);
-        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-        navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-        navBarLinks.push({ hrefVal: '/users/register', linkName: 'Register' });
-        navBarLinks.push({ hrefVal: '/users/login', linkName: 'Login' });
-    };
-
-    res.render('register', { navBarLinks: navBarLinks });
+    res.render('register', { navBarLinks: utils.navBarFiller(res) });
 });
 
 // Register
@@ -72,7 +25,7 @@ router.post('/register', (req, res) => {
     let errors = [];
 
     if (!name || !email || !password || !password2) {
-        errors.push({ msg: 'Please enter all fields' });
+        errors.push({ msg: 'Please fill all form fields' });
     }
 
     if (password != password2) {
@@ -85,25 +38,25 @@ router.post('/register', (req, res) => {
 
     if (errors.length > 0) {
         res.render('register', {
-            errors/* ,
+            errors,
             name,
             email,
             password,
-            password2 */
+            password2,
+            navBarLinks: utils.navBarFiller(res)
         });
-
-        console.log("error!!!!!!!!!!");
 
     } else {
         db.user.findOne({ where: { email: email } }).then(user => {
             if (user) {
-                errors.push({ msg: 'Email already exists' });
+                errors.push({ msg: 'Email address is already registered!' });
                 res.render('register', {
                     errors,
                     name,
                     email,
                     password,
-                    password2
+                    password2,
+                    navBarLinks: utils.navBarFiller(res)
                 });
             } else {
                 const newUser = new db.user({
@@ -127,7 +80,10 @@ router.post('/register', (req, res) => {
                                     'success_msg',
                                     'You are now registered and can log in'
                                 );
-                                res.redirect('/users/login');
+
+                                let success = [];
+                                success.push({ msg: 'You were successfuly registered. Try to login!' });
+                                res.render('login', { success: success });
                             })
                             .catch(err => console.log(err));
                     });
@@ -141,14 +97,11 @@ router.post('/register', (req, res) => {
 // Login
 router.post('/login', (req, res, next) => {
 
-
-
-
     const { email, password } = req.body;
     let errors = [];
 
     if (!email || !password) {
-        errors.push({ msg: 'Please enter all fields' });
+        errors.push({ msg: 'Fill all form fields' });
     }
 
     if (password.length < 6) {
@@ -159,9 +112,9 @@ router.post('/login', (req, res, next) => {
         res.render('login', {
             errors,
             email,
-            password
+            password,
+            navBarLinks: utils.navBarFiller(res)
         });
-        console.log("error!!!!!!!!!!");
     } else {
         passport.authenticate('local', {
             successRedirect: '/cars/add',

@@ -1,32 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/database.js');
+const utils = require('../utils/utils');
 
 router.get('/makes', function (req, res) {
-
-    let navBarLinks = [];
-    if (res.locals.currentUser && res.locals.currentUser == '9953274d-da9b-49d1-bc02-ae91ce553561') {
-        console.log("user1:" + res.locals.currentUser);
-        navBarLinks.push({ hrefVal: '/admin/makes', linkName: 'Makes' });
-        navBarLinks.push({ hrefVal: '/admin/models', linkName: 'Models' });
-        navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'Vehicles' });
-        navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-        navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-    } else if (res.locals.currentUser && res.locals.currentUser != '9953274d-da9b-49d1-bc02-ae91ce553561') {
-        console.log("user2:" + res.locals.currentUser);
-        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-        navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-        navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'My Vehicles' });
-        navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-        navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-    } else {
-        console.log("user3:" + res.locals.currentUser);
-        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-        navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-        navBarLinks.push({ hrefVal: '/users/register', linkName: 'Register' });
-        navBarLinks.push({ hrefVal: '/users/login', linkName: 'Login' });
-    };
 
     db.make.findAll({}).then(
         (result) => {
@@ -37,42 +14,18 @@ router.get('/makes', function (req, res) {
                 console.log(make.dataValues);
             });
             //console.log(carMakesArray);
-            res.render('makes', { carMakesArray: carMakesArray, navBarLinks: navBarLinks });
+            res.render('makes', { carMakesArray: carMakesArray, navBarLinks: utils.navBarFiller(res) });
         }
     );
 });
 
-router.post('/addMake', (req, res) => {
-    console.log("1");
+router.post('/manageMakes', (req, res) => {
+    //console.log("1");
     let errors = [];
     if (!req.body.makeName || typeof req.body.makeName == 'undefined') {
-        console.log("2");
+        //console.log("2");
         errors.push({ msg: 'Fill in all form fields!' });
-        console.log(errors);
-
-        let navBarLinks = [];
-        if (res.locals.currentUser && res.locals.currentUser == '9953274d-da9b-49d1-bc02-ae91ce553561') {
-            console.log("user1:" + res.locals.currentUser);
-            navBarLinks.push({ hrefVal: '/admin/makes', linkName: 'Makes' });
-            navBarLinks.push({ hrefVal: '/admin/models', linkName: 'Models' });
-            navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'Vehicles' });
-            navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-            navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-            navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-        } else if (res.locals.currentUser && res.locals.currentUser != '9953274d-da9b-49d1-bc02-ae91ce553561') {
-            console.log("user2:" + res.locals.currentUser);
-            navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-            navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-            navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'My Vehicles' });
-            navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-            navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-        } else {
-            console.log("user3:" + res.locals.currentUser);
-            navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-            navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-            navBarLinks.push({ hrefVal: '/users/register', linkName: 'Register' });
-            navBarLinks.push({ hrefVal: '/users/login', linkName: 'Login' });
-        };
+        //console.log(errors);
 
         db.make.findAll({}).then(
             (result) => {
@@ -80,42 +33,16 @@ router.post('/addMake', (req, res) => {
                 //let makesMap = new Map();
                 result.forEach((make) => {
                     carMakesArray.push(make.dataValues);
-                    console.log(make.dataValues);
+                    //console.log(make.dataValues);
                 });
                 //console.log(carMakesArray);
-                res.render('makes', { carMakesArray: carMakesArray, errors: errors, navBarLinks: navBarLinks });
+                res.render('makes', { carMakesArray: carMakesArray, errors: errors, navBarLinks: utils.navBarFiller(res) });
             }
         );
 
     } else {
 
-        let navBarLinks = [];
-        if (res.locals.currentUser && res.locals.currentUser == '9953274d-da9b-49d1-bc02-ae91ce553561') {
-            console.log("user1:" + res.locals.currentUser);
-            navBarLinks.push({ hrefVal: '/admin/makes', linkName: 'Makes' });
-            navBarLinks.push({ hrefVal: '/admin/models', linkName: 'Models' });
-            navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'Vehicles' });
-            navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-            navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-            navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-        } else if (res.locals.currentUser && res.locals.currentUser != '9953274d-da9b-49d1-bc02-ae91ce553561') {
-            console.log("user2:" + res.locals.currentUser);
-            navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-            navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-            navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'My Vehicles' });
-            navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-            navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-        } else {
-            console.log("user3:" + res.locals.currentUser);
-            navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-            navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-            navBarLinks.push({ hrefVal: '/users/register', linkName: 'Register' });
-            navBarLinks.push({ hrefVal: '/users/login', linkName: 'Login' });
-        };
-
-
-
-        console.log("3");
+        //console.log("3");
         db.make.create({ make: req.body.makeName }).then(function () {
             db.make.findAll({}).then(
                 (result) => {
@@ -123,60 +50,37 @@ router.post('/addMake', (req, res) => {
                     //let makesMap = new Map();
                     result.forEach((make) => {
                         carMakesArray.push(make.dataValues);
-                        console.log(make.dataValues);
+                        //console.log(make.dataValues);
                     });
                     //console.log(carMakesArray);
-                    res.render('makes', { carMakesArray: carMakesArray, navBarLinks: navBarLinks });
+                    res.render('makes', { carMakesArray: carMakesArray, navBarLinks: utils.navBarFiller(res) });
                 }
             );
 
         }).catch(function (err) {
-            console.log("4");
+            //console.log("4");
             console.log("Error!: " + err.message);
         });
     }
 
 });
 
-router.delete('/deleteMake', (req, res) => {
-    console.log(req.body.makeId);
-    db.make.destroy({ where: { id: req.body.makeId } }).then(function () {
-        res.render('makes');
+router.delete('/manageMakes/:makeId', (req, res) => {
+    //console.log(req.params.makeId);
+    db.make.destroy({ where: { id: req.params.makeId } }).then(function () {
+        //res.status('makes');
+        res.status(200).end();
     });
 });
 
 router.delete('/deleteTestDrive', (req, res) => {
-    console.log(req.body.testId);
+    //console.log(req.body.testId);
     db.schedule.destroy({ where: { id: req.body.testId } }).then(function () {
         res.render('listtestdrives');
     });
 });
 
 router.get('/models', function (req, res) {
-
-    let navBarLinks = [];
-    if (res.locals.currentUser && res.locals.currentUser == '9953274d-da9b-49d1-bc02-ae91ce553561') {
-        console.log("user1:" + res.locals.currentUser);
-        navBarLinks.push({ hrefVal: '/admin/makes', linkName: 'Makes' });
-        navBarLinks.push({ hrefVal: '/admin/models', linkName: 'Models' });
-        navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'Vehicles' });
-        navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-        navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-    } else if (res.locals.currentUser && res.locals.currentUser != '9953274d-da9b-49d1-bc02-ae91ce553561') {
-        console.log("user2:" + res.locals.currentUser);
-        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-        navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-        navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'My Vehicles' });
-        navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-        navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-    } else {
-        console.log("user3:" + res.locals.currentUser);
-        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-        navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-        navBarLinks.push({ hrefVal: '/users/register', linkName: 'Register' });
-        navBarLinks.push({ hrefVal: '/users/login', linkName: 'Login' });
-    };
 
     let carMakesModelsArray = [];
     let carMakesArray = [];
@@ -196,7 +100,7 @@ router.get('/models', function (req, res) {
             result.forEach((element) => {
                 carMakesArray.push(element.dataValues);
             });
-            res.render('models', { navBarLinks: navBarLinks, carMakesModelsArray: carMakesModelsArray, carMakesArray: carMakesArray });
+            res.render('models', { navBarLinks: utils.navBarFiller(res), carMakesModelsArray: carMakesModelsArray, carMakesArray: carMakesArray });
         });
 
     });
@@ -208,30 +112,6 @@ router.post('/addModel', (req, res) => {
 
     let errors = [];
     if (!req.body.modelName || typeof req.body.modelName == 'undefined') {
-
-        let navBarLinks = [];
-        if (res.locals.currentUser && res.locals.currentUser == '9953274d-da9b-49d1-bc02-ae91ce553561') {
-            console.log("user1:" + res.locals.currentUser);
-            navBarLinks.push({ hrefVal: '/admin/makes', linkName: 'Makes' });
-            navBarLinks.push({ hrefVal: '/admin/models', linkName: 'Models' });
-            navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'Vehicles' });
-            navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-            navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-            navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-        } else if (res.locals.currentUser && res.locals.currentUser != '9953274d-da9b-49d1-bc02-ae91ce553561') {
-            console.log("user2:" + res.locals.currentUser);
-            navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-            navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-            navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'My Vehicles' });
-            navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-            navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-        } else {
-            console.log("user3:" + res.locals.currentUser);
-            navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-            navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-            navBarLinks.push({ hrefVal: '/users/register', linkName: 'Register' });
-            navBarLinks.push({ hrefVal: '/users/login', linkName: 'Login' });
-        };
 
         errors.push({ msg: 'Fill in all form fields' });
 
@@ -253,42 +133,16 @@ router.post('/addModel', (req, res) => {
                 result.forEach((element) => {
                     carMakesArray.push(element.dataValues);
                 });
-                res.render('models', { navBarLinks: navBarLinks, errors: errors, carMakesModelsArray: carMakesModelsArray, carMakesArray: carMakesArray });
+                res.render('models', { navBarLinks: utils.navBarFiller(res), errors: errors, carMakesModelsArray: carMakesModelsArray, carMakesArray: carMakesArray });
             });
 
         });
 
     } else {
 
-
-
-        let navBarLinks = [];
-        if (res.locals.currentUser && res.locals.currentUser == '9953274d-da9b-49d1-bc02-ae91ce553561') {
-            console.log("user1:" + res.locals.currentUser);
-            navBarLinks.push({ hrefVal: '/admin/makes', linkName: 'Makes' });
-            navBarLinks.push({ hrefVal: '/admin/models', linkName: 'Models' });
-            navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'Vehicles' });
-            navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-            navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-            navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-        } else if (res.locals.currentUser && res.locals.currentUser != '9953274d-da9b-49d1-bc02-ae91ce553561') {
-            console.log("user2:" + res.locals.currentUser);
-            navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-            navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-            navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'My Vehicles' });
-            navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-            navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-        } else {
-            console.log("user3:" + res.locals.currentUser);
-            navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-            navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-            navBarLinks.push({ hrefVal: '/users/register', linkName: 'Register' });
-            navBarLinks.push({ hrefVal: '/users/login', linkName: 'Login' });
-        };
-
         let carMakesModelsArray = [];
         let carMakesArray = [];
-        console.log(req.body);
+        //console.log(req.body);
         db.make.findOne({ where: { id: req.body.makeId } }).then((result) => {
             db.model.create({ model: req.body.modelName, carMakeId: result.dataValues.id }).then(function () {
                 db.model.findAll({ include: [db.make] }).then(function (result) {
@@ -306,8 +160,8 @@ router.post('/addModel', (req, res) => {
                         result.forEach((element) => {
                             carMakesArray.push(element.dataValues);
                         });
-                        console.log(carMakesArray);
-                        res.render('models', { navBarLinks: navBarLinks, carMakesModelsArray: carMakesModelsArray, carMakesArray: carMakesArray });
+                        //console.log(carMakesArray);
+                        res.render('models', { navBarLinks: utils.navBarFiller(res), carMakesModelsArray: carMakesModelsArray, carMakesArray: carMakesArray });
                     });
                 });
             });
@@ -315,11 +169,11 @@ router.post('/addModel', (req, res) => {
     }
 });
 
-router.delete('/addModel', (req, res) => {
-    console.log("###################################");
-    db.model.destroy({ where: { id: req.body.modelId } }).then(function () {
-        console.log(req.body.modelId);
-        res.render('models');
+router.delete('/manageModels/:modelId', (req, res) => {
+    db.model.destroy({ where: { id: req.params.modelId } }).then(function () {
+        //console.log(req.params.modelId);
+        //res.render('models');
+        res.status(200).end();
     });
 });
 
@@ -331,29 +185,6 @@ router.delete('/deleteCar', (req, res) => {
 
 router.get('/listScheduledTestDrives/:userId', function (req, res) {
 
-    let navBarLinks = [];
-    if (res.locals.currentUser && res.locals.currentUser == '9953274d-da9b-49d1-bc02-ae91ce553561') {
-        console.log("user1:" + res.locals.currentUser);
-        navBarLinks.push({ hrefVal: '/admin/makes', linkName: 'Makes' });
-        navBarLinks.push({ hrefVal: '/admin/models', linkName: 'Models' });
-        navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'Vehicles' });
-        navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-        navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-    } else if (res.locals.currentUser && res.locals.currentUser != '9953274d-da9b-49d1-bc02-ae91ce553561') {
-        console.log("user2:" + res.locals.currentUser);
-        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-        navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-        navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'My Vehicles' });
-        navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-        navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-    } else {
-        console.log("user3:" + res.locals.currentUser);
-        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-        navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-        navBarLinks.push({ hrefVal: '/users/register', linkName: 'Register' });
-        navBarLinks.push({ hrefVal: '/users/login', linkName: 'Login' });
-    };
 
     if (req.params.userId == '9953274d-da9b-49d1-bc02-ae91ce553561') {
         db.schedule.findAll({}).then(
@@ -362,7 +193,7 @@ router.get('/listScheduledTestDrives/:userId', function (req, res) {
                 result.forEach((schedule) => {
                     schedulesArray.push(schedule.dataValues);
                 });
-                res.render('listtestdrives', { schedulesArray: schedulesArray, navBarLinks: navBarLinks });
+                res.render('listtestdrives', { schedulesArray: schedulesArray, navBarLinks: utils.navBarFiller(res) });
             }
         );
     } else if (req.params.userId && req.params.userId != '9953274d-da9b-49d1-bc02-ae91ce553561') {
@@ -378,7 +209,7 @@ router.get('/listScheduledTestDrives/:userId', function (req, res) {
                     result.forEach((schedule) => {
                         schedulesArray.push(schedule.dataValues);
                     });
-                    res.render('listtestdrives', { schedulesArray: schedulesArray, navBarLinks: navBarLinks });
+                    res.render('listtestdrives', { schedulesArray: schedulesArray, navBarLinks: utils.navBarFiller(res) });
                 }
             );
         });
@@ -387,31 +218,6 @@ router.get('/listScheduledTestDrives/:userId', function (req, res) {
 
 router.get('/manageVehicles/:userId', function (req, res) {
 
-    let navBarLinks = [];
-    if (res.locals.currentUser && res.locals.currentUser == '9953274d-da9b-49d1-bc02-ae91ce553561') {
-        console.log("user1:" + res.locals.currentUser);
-        navBarLinks.push({ hrefVal: '/admin/makes', linkName: 'Makes' });
-        navBarLinks.push({ hrefVal: '/admin/models', linkName: 'Models' });
-        navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'Vehicles' });
-        navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-        navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-    } else if (res.locals.currentUser && res.locals.currentUser != '9953274d-da9b-49d1-bc02-ae91ce553561') {
-        console.log("user2:" + res.locals.currentUser);
-        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-        navBarLinks.push({ hrefVal: '/admin/listScheduledTestDrives/' + res.locals.currentUser, linkName: 'Test Drives' });
-        navBarLinks.push({ hrefVal: '/admin/manageVehicles/' + res.locals.currentUser, linkName: 'My Vehicles' });
-        navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-        navBarLinks.push({ hrefVal: '/users/logout', linkName: 'Logout' });
-    } else {
-        console.log("user3:" + res.locals.currentUser);
-        navBarLinks.push({ hrefVal: '/', linkName: 'Search' });
-        navBarLinks.push({ hrefVal: '/cars/add', linkName: 'List your Car' });
-        navBarLinks.push({ hrefVal: '/users/register', linkName: 'Register' });
-        navBarLinks.push({ hrefVal: '/users/login', linkName: 'Login' });
-    };
-
-
     if (req.params.userId == '9953274d-da9b-49d1-bc02-ae91ce553561') {
         db.car.findAll({}).then(
             (result) => {
@@ -419,8 +225,8 @@ router.get('/manageVehicles/:userId', function (req, res) {
                 result.forEach((car) => {
                     vehiclesArray.push(car.dataValues);
                 });
-                console.log(vehiclesArray);
-                res.render('manageVehicles', { vehiclesArray: vehiclesArray, navBarLinks: navBarLinks });
+                //console.log(vehiclesArray);
+                res.render('manageVehicles', { vehiclesArray: vehiclesArray, navBarLinks: utils.navBarFiller(res) });
             }
         );
     } else if (req.params.userId && req.params.userId != '9953274d-da9b-49d1-bc02-ae91ce553561') {
@@ -430,8 +236,8 @@ router.get('/manageVehicles/:userId', function (req, res) {
                 result.forEach((car) => {
                     vehiclesArray.push(car.dataValues);
                 });
-                console.log(vehiclesArray);
-                res.render('manageVehicles', { vehiclesArray: vehiclesArray, navBarLinks: navBarLinks });
+                //console.log(vehiclesArray);
+                res.render('manageVehicles', { vehiclesArray: vehiclesArray, navBarLinks: utils.navBarFiller(res) });
             }
         );
     }

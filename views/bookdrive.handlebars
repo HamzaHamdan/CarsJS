@@ -1,6 +1,7 @@
 <div class="container my-5">
     {{> errors}}
-    <form action="/cars/scheduleTestDrive" method="POST" id="postTestDriveSchedule" name="postTestDriveSchedule">
+    <form action="/cars/scheduleTestDrive" method="POST" id="postTestDriveSchedule" name="postTestDriveSchedule"
+        class="text-white">
 
         <div class="form-group row">
             <label for="customerEmail" class="col-sm-2 col-form-label">Email</label>
@@ -11,33 +12,34 @@
         </div>
 
         <div class="form-group row">
-            <label for="dateFieldSearchFrom" class="col-sm-2 col-form-label">Preferred Date</label>
+            <label for="dateFieldSearchFrom" class="col-sm-2 col-form-label">Preferred Date:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="dateFieldSearchFrom" id="dateFieldSearchFrom"
-                    placeholder="Date">
+                <input type="text" class="form-control genericTextFields" name="dateFieldSearchFrom"
+                    id="dateFieldSearchFrom" placeholder="Date">
             </div>
         </div>
 
         <div class="form-group row">
-            <label for="carId" class="col-sm-2 col-form-label">Car ID</label>
+            <label for="carId" class="col-sm-2 col-form-label text-white">Car ID:</label>
             <div class="col-sm-10">
-                <input type="text" readonly name="carId" class="form-control-plaintext" id="carId"
+                <input type="text" readonly name="carId" class="form-control-plaintext text-white" id="carId"
                     value="{{ carDetailsObject.carId }}">
             </div>
         </div>
 
         <div class="form-group row">
-            <label for="vinNumber" class="col-sm-2 col-form-label">Vin Number</label>
+            <label for="vinNumber" class="col-sm-2 col-form-label text-white">Vin Number:</label>
             <div class="col-sm-10">
-                <input type="text" readonly name="vinNumber" class="form-control-plaintext" id="vinNumber"
+                <input type="text" readonly name="vinNumber" class="form-control-plaintext text-white" id="vinNumber"
                     value="{{ carDetailsObject.vinNum }}">
             </div>
         </div>
 
         <div class="form-group row">
-            <label for="notesField" class="col-sm-2 col-form-label">Notes</label>
+            <label for="notesField" class="col-sm-2 col-form-label text-white">Notes:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="notesField" id="notesField" placeholder="Notes...">
+                <textarea class="form-control" rows="3" placeholder="Notes..." name="notesField"
+                    id="notesField"></textarea>
             </div>
         </div>
 

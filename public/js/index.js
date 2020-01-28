@@ -96,34 +96,24 @@ $(document).ready(function () {
     $(document).on("click", ".makeDeleteClass", function () {
         var makeId = $(this).attr('custom-attribute');
 
-        $.ajax("/admin/deleteMake", {
-            type: "DELETE",
-            data: {
-                'makeId': makeId
-            }
+        $.ajax("/admin/manageMakes/" + makeId, {
+            type: "DELETE"
         }).then(
             function () {
                 console.log("created new burger");
-                // Reload the page to get the updated list
-                location.reload();
             }
         );
     });
 
     $(document).on("click", ".modelDeleteClass", function (event) {
-        event.preventDefault();
+        //event.preventDefault();
         var modelId = $(this).attr('custom-attribute');
         console.log(modelId);
-        $.ajax("/admin/addModel", {
-            type: "DELETE",
-            data: {
-                'modelId': modelId
-            }
+        $.ajax("/admin/manageModels/" + modelId, {
+            type: "DELETE"
         }).then(
             function () {
-                console.log("created new model!");
-                // Reload the page to get the updated list
-                location.reload();
+                console.log("model delted!");
             }
         );
     });
@@ -214,7 +204,7 @@ $(document).ready(function () {
             function () {
                 console.log("created new burger");
                 // Reload the page to get the updated list
-                location.reload();
+                //location.reload();
             }
         );
     });

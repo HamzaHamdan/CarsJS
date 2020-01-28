@@ -2,7 +2,7 @@
 
     <div class="mt-5 p-5">
         {{> errors}}
-        <form action="/admin/addMake" method="POST">
+        <form action="/admin/manageMakes" method="POST">
             <div class="row my-4">
 
                 <div class="col-9">
@@ -21,8 +21,9 @@
                 {{#each carMakesArray}}
                 {{!-- {{#unless @first}} --}}
 
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
                     <p><strong>{{ this.make }}</strong></p>
+                    <hr>
                     <p>Creation Date: {{ this.createdAt }}</p>
                     <button type="button" class="close makeDeleteClass" data-dismiss="alert" aria-label="Close"
                         custom-attribute="{{this.id}}" id="deleteMakeItem">
