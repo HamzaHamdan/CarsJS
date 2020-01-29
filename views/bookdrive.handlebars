@@ -1,10 +1,10 @@
 <div class="container my-5">
     {{> errors}}
     <form action="/cars/scheduleTestDrive" method="POST" id="postTestDriveSchedule" name="postTestDriveSchedule"
-        class="text-white">
+        class="text-white p-5" style="background-color: rgb(65, 80, 80, 0.8)">
 
         <div class="form-group row">
-            <label for="customerEmail" class="col-sm-2 col-form-label">Email</label>
+            <label for="customerEmail" class="col-sm-2 col-form-label">Email:</label>
             <div class="col-sm-10">
                 <input type="email" class="form-control" id="customerEmail" name="customerEmail"
                     placeholder="Email Address">
@@ -43,9 +43,10 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mt-5">
             <div class="col text-center">
-                <button type="submit" class="btn btn-primary">Submit!</button>
+                <button type="submit" style="background-color:rgb(0, 160, 160, 1)"
+                    class="btn btn-lg lead">Submit!</button>
             </div>
         </div>
 

@@ -1,39 +1,44 @@
 <div class="container my-5">
-    <div class="mt-5 p-5 bg-dark">
-
-        {{#each vehiclesArray}}
+    <div class="mt-5 p-5">
         <div class="row">
             <div class="col">
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <p><strong>{{ this.carVinNum }}</strong></p>
-                    <hr>
-                    <div class="row">
-                        <div class="col-12">
-                            <div id="details-section">
+                <table class="table table-striped text-white" style="background-color: rgb(65, 80, 80, 0.8)">
+                    <thead>
+                        <tr>
+                            <th>VIN</th>
+                            <th>Make</th>
+                            <th>Model</th>
+                            <th>Year</th>
+                            <th>Milage</th>
+                            <th>Color</th>
+                            <th>Prices</th>
+                            <th>Listed On</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each vehiclesArray}}
+                        <tr>
+                            <td>{{ this.carVinNum }}</td>
+                            <td>{{this.make}}</td>
+                            <td>{{ this.model }}</td>
+                            <td>{{ this.carYear }}</td>
+                            <td>{{ this.carMilage }}</td>
+                            <td>{{ this.carColor }}</td>
+                            <td>{{ this.carPrice }}</td>
+                            <td>{{ this.createdAt }}</td>
+                            <td>
+                                <button type="button" class="btn btn-outline-danger btn-sm carDeleteClass"
+                                    custom-attribute="{{this.id}}" id="deleteMakeItem">
+                                    DELETE
+                                </button>
 
-                                <div class="row mt-2">
-                                    <div class="col-6">Make: {{this.carMakeId}}</div>
-                                    <div class="col-6">Model: {{this.carModelId}}</div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-6">Year: {{this.carYear}}</div>
-                                    <div class="col-6">Milage: {{this.carMilage}}</div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-6">Color: {{this.carColor}}</div>
-                                    <div class="col-6">Price: {{this.carPrice}}</div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <button type="button" class="close carDeleteClass" data-dismiss="alert" aria-label="Close"
-                        custom-attribute="{{this.id}}" id="deleteMakeItem">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
             </div>
         </div>
-        {{/each}}
     </div>
 </div>

@@ -11,5 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       required: true
     }
   });
+
   return CarMake;
 };
+

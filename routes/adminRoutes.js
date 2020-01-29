@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/database.js');
 const utils = require('../utils/utils');
+const moment = require('moment');
 
 router.get('/makes', function (req, res) {
 
@@ -10,8 +11,13 @@ router.get('/makes', function (req, res) {
             let carMakesArray = [];
             //let makesMap = new Map();
             result.forEach((make) => {
-                carMakesArray.push(make.dataValues);
-                console.log(make.dataValues);
+                carMakesArray.push({
+                    id: make.dataValues.id,
+                    make: make.dataValues.make,
+                    createdAt: moment(make.dataValues.createdAt).format('MM/DD/YYYY'),
+                    updatedAt: moment(make.dataValues.updatedAt).format('MM/DD/YYYY')
+                });
+                //console.log(make.dataValues);
             });
             //console.log(carMakesArray);
             res.render('makes', { carMakesArray: carMakesArray, navBarLinks: utils.navBarFiller(res) });
@@ -49,7 +55,12 @@ router.post('/manageMakes', (req, res) => {
                     let carMakesArray = [];
                     //let makesMap = new Map();
                     result.forEach((make) => {
-                        carMakesArray.push(make.dataValues);
+                        carMakesArray.push({
+                            id: make.dataValues.id,
+                            make: make.dataValues.make,
+                            createdAt: moment(make.dataValues.createdAt).format('MM/DD/YYYY'),
+                            updatedAt: moment(make.dataValues.updatedAt).format('MM/DD/YYYY')
+                        });
                         //console.log(make.dataValues);
                     });
                     //console.log(carMakesArray);
@@ -92,12 +103,14 @@ router.get('/models', function (req, res) {
                 model: element.dataValues.model,
                 carMakeId: element.dataValues.carMakeId,
                 carMake: element.dataValues.carMake.dataValues.make,
-                createdAt: element.dataValues.createdAt
+                createdAt: moment(element.dataValues.createdAt).format("MM/DD/YYYY")
             });
+
         });
 
         db.make.findAll({}).then((result) => {
             result.forEach((element) => {
+                //console.log(element.dataValues);
                 carMakesArray.push(element.dataValues);
             });
             res.render('models', { navBarLinks: utils.navBarFiller(res), carMakesModelsArray: carMakesModelsArray, carMakesArray: carMakesArray });
@@ -125,7 +138,7 @@ router.post('/addModel', (req, res) => {
                     model: element.dataValues.model,
                     carMakeId: element.dataValues.carMakeId,
                     carMake: element.dataValues.carMake.dataValues.make,
-                    createdAt: element.dataValues.createdAt
+                    createdAt: moment(element.dataValues.createdAt).format("MM/DD/YYYY")
                 });
             });
 
@@ -152,7 +165,7 @@ router.post('/addModel', (req, res) => {
                             model: element.dataValues.model,
                             carMakeId: element.dataValues.carMakeId,
                             carMake: element.dataValues.carMake.dataValues.make,
-                            createdAt: element.dataValues.createdAt
+                            createdAt: moment(element.dataValues.createdAt).format("MM/DD/YYYY")
                         });
                     });
 
@@ -219,22 +232,69 @@ router.get('/listScheduledTestDrives/:userId', function (req, res) {
 router.get('/manageVehicles/:userId', function (req, res) {
 
     if (req.params.userId == '9953274d-da9b-49d1-bc02-ae91ce553561') {
-        db.car.findAll({}).then(
+        db.car.findAll({
+            include: [{
+                model: db.make,
+            },
+            {
+                model: db.model,
+            }]
+        }).then(
             (result) => {
                 let vehiclesArray = [];
-                result.forEach((car) => {
-                    vehiclesArray.push(car.dataValues);
+                result.forEach((element) => {
+                    //console.log(element);
+                    const carObject = {
+                        id: element.dataValues.id,
+                        carVinNum: element.dataValues.carVinNum,
+                        carYear: element.dataValues.carYear,
+                        carColor: element.dataValues.carColor,
+                        carMilage: element.dataValues.carMilage,
+                        carPrice: element.dataValues.carPrice,
+                        createdAt: moment(element.dataValues.createdAt).format("MM/DD/YYYY"),
+                        updatedAt: moment(element.dataValues.updatedAt).format("MM/DD/YYYY"),
+                        carMakeId: element.dataValues.carMakeId,
+                        carModelId: element.dataValues.carModelId,
+                        userId: element.dataValues.userId,
+                        make: element.dataValues.carMake.dataValues.make,
+                        model: element.dataValues.carModel.dataValues.model
+                    };
+                    vehiclesArray.push(carObject);
+                    //console.log(carObject);
                 });
                 //console.log(vehiclesArray);
                 res.render('manageVehicles', { vehiclesArray: vehiclesArray, navBarLinks: utils.navBarFiller(res) });
             }
         );
     } else if (req.params.userId && req.params.userId != '9953274d-da9b-49d1-bc02-ae91ce553561') {
-        db.car.findAll({ where: { userId: res.locals.currentUser } }).then(
+        db.car.findAll({
+            include: [{
+                model: db.make,
+            },
+            {
+                model: db.model,
+            }], where: { userId: res.locals.currentUser }
+        }).then(
             (result) => {
                 let vehiclesArray = [];
-                result.forEach((car) => {
-                    vehiclesArray.push(car.dataValues);
+                result.forEach((element) => {
+                    const carObject = {
+                        id: element.dataValues.id,
+                        carVinNum: element.dataValues.carVinNum,
+                        carYear: element.dataValues.carYear,
+                        carColor: element.dataValues.carColor,
+                        carMilage: element.dataValues.carMilage,
+                        carPrice: element.dataValues.carPrice,
+                        createdAt: moment(element.dataValues.createdAt).format("MM/DD/YYYY"),
+                        updatedAt: moment(element.dataValues.updatedAt).format("MM/DD/YYYY"),
+                        carMakeId: element.dataValues.carMakeId,
+                        carModelId: element.dataValues.carModelId,
+                        userId: element.dataValues.userId,
+                        make: element.dataValues.carMake.dataValues.make,
+                        model: element.dataValues.carModel.dataValues.model
+                    };
+                    vehiclesArray.push(carObject);
+                    console.log(carObject);
                 });
                 //console.log(vehiclesArray);
                 res.render('manageVehicles', { vehiclesArray: vehiclesArray, navBarLinks: utils.navBarFiller(res) });

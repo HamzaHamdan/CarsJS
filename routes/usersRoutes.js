@@ -83,7 +83,7 @@ router.post('/register', (req, res) => {
 
                                 let success = [];
                                 success.push({ msg: 'You were successfuly registered. Try to login!' });
-                                res.render('login', { success: success });
+                                res.render('login', { success: success, navBarLinks: utils.navBarFiller(res) });
                             })
                             .catch(err => console.log(err));
                     });

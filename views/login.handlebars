@@ -1,9 +1,9 @@
 <div class="container">
   <div class="row my-5">
     <div class="col-md-6 m-auto">
-      <div class="card card-body">
-        <h1 class="text-center mb-3"><i class="fa fa-sign-in"></i> Login</h1>
-        <hr class="mb-4">
+      <div class="card card-body" style="background-color: rgb(65, 80, 80, 0.8)">
+        <h1 class="text-center mb-3 text-white"><i class="fa fa-sign-in"></i> Login</h1>
+        <hr class="mb-4" style="border: 1px solid white;">
         {{> errors}}
         {{> success}}
         <form action="/users/login" method="POST">
@@ -15,23 +15,23 @@
             <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password"
               value="{{ password }}" />
           </div>
-          <button type="submit" class="btn btn-primary btn-block" style="height: 50px; font-size: 20px;"><i
+          <button type="submit" class="btn btn-light btn-block" style="height: 50px; font-size: 20px;"><i
               class="fa fa-sign-in"></i>
             Login</button>
         </form>
-        <div class="row mt-3">
+        <div class="row mt-3  text-white">
           <div class="col-5">
-            <hr>
+            <hr style="border: 1px solid white;">
           </div>
           <div class="col-2 text-center">
             <p class="lead test-center">Or</p>
           </div>
           <div class="col-5">
-            <hr>
+            <hr style="border: 1px solid white;">
           </div>
         </div>
 
-        <a class="btn btn-primary" style="height: 50px; font-size: 20px;" href="/users/register"><i
+        <a class="btn btn-light" style="height: 50px; font-size: 20px;" href="/users/register"><i
             class="fa fa-user-plus"></i> No Account? Register</a>
 
       </div>

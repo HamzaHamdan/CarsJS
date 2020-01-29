@@ -4,6 +4,7 @@ const Car = require('../models/Car');
 const multer = require('multer');
 const db = require('../config/database');
 const utils = require('../utils/utils');
+const moment = require('moment');
 
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
@@ -20,12 +21,9 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 router.get('/add', ensureAuthenticated, (req, res) => {
-
   db.make.findAll({})
     .then((carMake) => {
-
       const carMakeArray = [];
-
       carMake.forEach((element) => {
         const carMakeObject = {
           carMakeName: element.dataValues.make,
@@ -33,12 +31,9 @@ router.get('/add', ensureAuthenticated, (req, res) => {
         };
         carMakeArray.push(carMakeObject);
       });
-      //console.log(carMakeArray);
       res.render('add', { user: req.user, carMakeArray: carMakeArray, navBarLinks: utils.navBarFiller(res) });
-
     })
     .catch(err => console.log(err));
-
 });
 
 router.post('/addPageGetMakeModels', function (req, res) {
@@ -96,31 +91,35 @@ router.post('/search', function (req, res) {
       }],
       where: { carYear: req.body.carsYearDDL }
     }).then(function (result) {
-      result.forEach((element) => {
-        //console.log(element.dataValues);
-        const carObject = {
-          id: element.dataValues.id,
-          carVinNum: element.dataValues.carVinNum,
-          carYear: element.dataValues.carYear,
-          carColor: element.dataValues.carColor,
-          carMilage: element.dataValues.carMilage,
-          carPrice: element.dataValues.carPrice,
-          createdAt: element.dataValues.createdAt,
-          updatedAt: element.dataValues.updatedAt,
-          carMakeId: element.dataValues.carMakeId,
-          carModelId: element.dataValues.carModelId,
-          userId: element.dataValues.userId,
-          make: element.dataValues.carMake.dataValues.make,
-          model: element.dataValues.carModel.dataValues.model
-        };
-        //console.log(carObject);
-        carsArray.push(carObject);
+      return result.forEach((element) => {
+        let pathToImages = [];
+        db.image.findAll({ where: { carVinNum: element.dataValues.carVinNum } }).then((imageResult) => {
+          imageResult.forEach((imageElement) => {
+            pathToImages.push(imageElement.dataValues.image.replace('\public', ''));
+          });
+          const carObject = {
+            id: element.dataValues.id,
+            carVinNum: element.dataValues.carVinNum,
+            carYear: element.dataValues.carYear,
+            carColor: element.dataValues.carColor,
+            carMilage: element.dataValues.carMilage,
+            carPrice: element.dataValues.carPrice,
+            createdAt: moment(element.dataValues.createdAt).format("MM/DD/YYYY"),
+            updatedAt: moment(element.dataValues.updatedAt).format("MM/DD/YYYY"),
+            carMakeId: element.dataValues.carMakeId,
+            carModelId: element.dataValues.carModelId,
+            userId: element.dataValues.userId,
+            make: element.dataValues.carMake.dataValues.make,
+            model: element.dataValues.carModel.dataValues.model,
+            images: pathToImages
+          };
+          carsArray.push(carObject);
+        });
       });
-      //console.log(carsArray.length);
+    }).done(function () {
       res.render('search', { carsArray: carsArray, navBarLinks: utils.navBarFiller(res) });
     });
   }
-
 });
 
 router.get('/bookings/:carId/:vinNum', function (req, res) {
@@ -175,7 +174,6 @@ router.post('/scheduleTestDrive', (req, res) => {
 router.get('/viewMoreDetails/:carId', function (req, res) {
 
   let pathToImages = [];
-  let carDetailsObject = [];
 
   db.car.findOne({
     include: [{
@@ -195,8 +193,8 @@ router.get('/viewMoreDetails/:carId', function (req, res) {
       carColor: element.dataValues.carColor,
       carMilage: element.dataValues.carMilage,
       carPrice: element.dataValues.carPrice,
-      createdAt: element.dataValues.createdAt,
-      updatedAt: element.dataValues.updatedAt,
+      createdAt: moment(element.dataValues.createdAt).format("MM/DD/YYYY"),
+      updatedAt: moment(element.dataValues.updatedAt).format("MM/DD/YYYY"),
       carMakeId: element.dataValues.carMakeId,
       carModelId: element.dataValues.carModelId,
       userId: element.dataValues.userId,
@@ -234,13 +232,9 @@ router.post('/detailedview', upload.array('carImagesUploader', 5), (req, res, ne
   }
 
   if (errors.length > 0) {
-    let carMakeArray = [];
-
     db.make.findAll({})
       .then((carMake) => {
-
         const carMakeArray = [];
-
         carMake.forEach((element) => {
           const carMakeObject = {
             carMakeName: element.dataValues.make,
@@ -250,11 +244,8 @@ router.post('/detailedview', upload.array('carImagesUploader', 5), (req, res, ne
         });
         //console.log(carMakeArray);
         res.render('add', { user: req.user, carMakeArray: carMakeArray, errors: errors, navBarLinks: utils.navBarFiller(res) });
-
       })
       .catch(err => console.log(err));
-
-
   } else {
     //console.log(req.body);
 
@@ -269,17 +260,18 @@ router.post('/detailedview', upload.array('carImagesUploader', 5), (req, res, ne
       userId: res.locals.currentUser
     };
 
-    console.log(newCar);
+    //console.log(newCar);
     db.car.create(newCar).then(() => {
       //const pathToImages = [];
       files.forEach(function (element) {
         db.image.create({ image: element.path, carVinNum: newCar.carVinNum }).then(() => {
-          // pathToImages.push(element.path.replace('\public', ''));
-          let success = [];
-          success.push({ msg: 'Your vehicle was added successfuly to the system. You can add another vehicle or use My Vehicles and Test Drives links above to check the status of your vehicles and scheduled test drvies.' });
-          res.render('add', { success: success, navBarLinks: utils.navBarFiller(res) });
         });
       });
+
+      let success = [];
+      success.push({ msg: 'Your vehicle was added successfuly to the system. You can add another vehicle or use My Vehicles and Test Drives links above to check the status of your vehicles and scheduled test drvies.' });
+      res.render('add', { success: success, navBarLinks: utils.navBarFiller(res) });
+
     });
 
   }

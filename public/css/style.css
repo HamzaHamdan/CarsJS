@@ -33,12 +33,12 @@
     }
 }
 
-.searchForm {
+/* .searchForm {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-}
+} */
 
 input[type=email] {
     width: 100%;
@@ -82,8 +82,12 @@ input[type=email] {
     padding: 15px 50px 18px 50px;
   }
 
-  img {
-    height: 45vh;
+   .detailedViewCarouselImage {
+    height: 75vh;
+  } 
+
+  .searchPageCarouselImage{
+    height: 25vh;
   }
 
 .genericTextFields {
@@ -95,3 +99,4 @@ input[type=email] {
     font-size: 16px;
     background-color: white;
   }
+

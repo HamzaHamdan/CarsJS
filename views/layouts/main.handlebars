@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
     <title>Deals on Wheels</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Gruppo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Average+Sans&display=swap" rel="stylesheet">
+
     <link rel='icon' href='/images/icon.png' type='image/png' />
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
@@ -19,7 +24,7 @@
 <body {{!-- class="bg-dark" --}} style="background: url('/images/bg.jpg'); background-size: auto;">
 
     <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand text-white" href="/">Deals on Wheels</a>
+        <a class="navbar-brand text-white" style="font-family: 'Guppo', cursive;" href="/">Deals on Wheels</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -31,28 +36,12 @@
                 {{#each navBarLinks}}
 
                 <li class="nav-item border rounded mx-1 header-item">
-                    <a class="nav-link text-white text-center" style="width: 120px;"
+                    <a class="nav-link text-white text-center"
+                        style="width: 120px; font-family: 'Average Sans', sans-serif;"
                         href="{{ this.hrefVal }}">{{ this.linkName }}</a>
                 </li>
 
                 {{/each}}
-
-
-
-
-                {{!-- <li class="nav-item active border rounded mr-2 header-item">
-                    <a class="nav-link text-white text-center" style="width: 120px;" href="/">Search</a>
-                </li>
-                <li class="nav-item border rounded mr-2 header-item">
-                    <a class="nav-link text-white text-center" style="width: 120px;" href="/cars/add">List Your Car</a>
-                </li>
-                <li class="nav-item border rounded mr-2 header-item" id="registerHeaderButton">
-                    <a class="nav-link text-white text-center" style="width: 120px;" href="/users/register">Register</a>
-                </li>
-                <li class="nav-item border rounded mr-2 header-item" id="loginHeaderButton">
-                    <a class="nav-link text-white text-center" style="width: 120px;" href="/users/login">Sign In</a>
-                </li> --}}
-
 
             </ul>
         </div>
