@@ -1,9 +1,15 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('cars_db', 'root', 'Admin123$#', {
-  host: 'localhost',
-  dialect: 'mysql',
-  port: 3315
-});
+
+let sequelize = null;
+if (process.env.JAWSDB_URL) {
+  sequelize = new Sequelize(process.env.JAWSDB_URL);
+} else {
+  sequelize = new Sequelize('cars_db', 'root', '#Tortas77!', {
+    host: 'localhost',
+    dialect: 'mysql',
+    port: 3306
+  });
+}
 
 const db = {};
 

@@ -235,15 +235,26 @@ router.post('/detailedview', upload.array('carImagesUploader', 5), (req, res, ne
 
   if (errors.length > 0) {
     let carMakeArray = [];
+
     db.make.findAll({})
       .then((carMake) => {
+
+        const carMakeArray = [];
+
         carMake.forEach((element) => {
-          carMakeArray.push(element.dataValues.make);
-          //console.log(element.dataValues.make);
+          const carMakeObject = {
+            carMakeName: element.dataValues.make,
+            carMakeId: element.dataValues.id,
+          };
+          carMakeArray.push(carMakeObject);
         });
-        res.render('add', { user: req.user, errors, carMakeArray: carMakeArray, navBarLinks: utils.navBarFiller(res) });
+        //console.log(carMakeArray);
+        res.render('add', { user: req.user, carMakeArray: carMakeArray, errors: errors, navBarLinks: utils.navBarFiller(res) });
+
       })
       .catch(err => console.log(err));
+
+
   } else {
     //console.log(req.body);
 
@@ -258,7 +269,7 @@ router.post('/detailedview', upload.array('carImagesUploader', 5), (req, res, ne
       userId: res.locals.currentUser
     };
 
-
+    console.log(newCar);
     db.car.create(newCar).then(() => {
       //const pathToImages = [];
       files.forEach(function (element) {
