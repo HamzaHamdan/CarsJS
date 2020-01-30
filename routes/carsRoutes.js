@@ -5,6 +5,7 @@ const multer = require('multer');
 const db = require('../config/database');
 const utils = require('../utils/utils');
 const moment = require('moment');
+var promise = require('promise');
 
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
@@ -88,39 +89,62 @@ router.post('/search', function (req, res) {
       {
         model: db.model,
         where: { id: req.body.carsModelDDL }
+      },
+      {
+        model: db.image
       }],
       where: { carYear: req.body.carsYearDDL }
     }).then(function (result) {
-      return result.forEach((element) => {
+
+      result.forEach(element => {
+        //console.log(element.dataValues.images);
+
         let pathToImages = [];
-        db.image.findAll({ where: { carVinNum: element.dataValues.carVinNum } }).then((imageResult) => {
-          imageResult.forEach((imageElement) => {
-            pathToImages.push(imageElement.dataValues.image.replace('\public', ''));
-          });
-          const carObject = {
-            id: element.dataValues.id,
-            carVinNum: element.dataValues.carVinNum,
-            carYear: element.dataValues.carYear,
-            carColor: element.dataValues.carColor,
-            carMilage: element.dataValues.carMilage,
-            carPrice: element.dataValues.carPrice,
-            createdAt: moment(element.dataValues.createdAt).format("MM/DD/YYYY"),
-            updatedAt: moment(element.dataValues.updatedAt).format("MM/DD/YYYY"),
-            carMakeId: element.dataValues.carMakeId,
-            carModelId: element.dataValues.carModelId,
-            userId: element.dataValues.userId,
-            make: element.dataValues.carMake.dataValues.make,
-            model: element.dataValues.carModel.dataValues.model,
-            images: pathToImages
-          };
-          carsArray.push(carObject);
+        element.dataValues.images.forEach(img => {
+          pathToImages.push(img.dataValues.image.replace('\public', ''));
         });
-      });
-    }).done(function () {
+
+        const carObject = {
+          id: element.dataValues.id,
+          carVinNum: element.dataValues.carVinNum,
+          carYear: element.dataValues.carYear,
+          carColor: element.dataValues.carColor,
+          carMilage: element.dataValues.carMilage,
+          carPrice: element.dataValues.carPrice,
+          createdAt: moment(element.dataValues.createdAt).format("MM/DD/YYYY"),
+          updatedAt: moment(element.dataValues.updatedAt).format("MM/DD/YYYY"),
+          carMakeId: element.dataValues.carMakeId,
+          carModelId: element.dataValues.carModelId,
+          userId: element.dataValues.userId,
+          make: element.dataValues.carMake.dataValues.make,
+          model: element.dataValues.carModel.dataValues.model,
+          images: pathToImages
+        };
+        carsArray.push(carObject);
+
+
+      })
+
+    }).then(function () {
       res.render('search', { carsArray: carsArray, navBarLinks: utils.navBarFiller(res) });
     });
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 router.get('/bookings/:carId/:vinNum', function (req, res) {
   const carDetailsObject = { carId: req.params.carId, vinNum: req.params.vinNum };
@@ -202,7 +226,7 @@ router.get('/viewMoreDetails/:carId', function (req, res) {
       model: element.dataValues.carModel.dataValues.model
     };
 
-    db.image.findAll({ where: { carVinNum: element.dataValues.carVinNum } }).then((imageResult) => {
+    db.image.findAll({ where: { carId: element.dataValues.id } }).then((imageResult) => {
       imageResult.forEach((imageElement) => {
         //console.log(imageElement.dataValues.image.replace('\public', ''));
         pathToImages.push(imageElement.dataValues.image.replace('\public', ''));
@@ -247,7 +271,6 @@ router.post('/detailedview', upload.array('carImagesUploader', 5), (req, res, ne
       })
       .catch(err => console.log(err));
   } else {
-    //console.log(req.body);
 
     const newCar = {
       carVinNum: req.body.carVinNum,
@@ -260,18 +283,26 @@ router.post('/detailedview', upload.array('carImagesUploader', 5), (req, res, ne
       userId: res.locals.currentUser
     };
 
-    //console.log(newCar);
-    db.car.create(newCar).then(() => {
-      //const pathToImages = [];
+    db.car.create(newCar).then((result) => {
       files.forEach(function (element) {
-        db.image.create({ image: element.path, carVinNum: newCar.carVinNum }).then(() => {
+        db.image.create({ image: element.path, carId: result.dataValues.id }).then(() => {
         });
       });
-
+    }).then(function () {
       let success = [];
       success.push({ msg: 'Your vehicle was added successfuly to the system. You can add another vehicle or use My Vehicles and Test Drives links above to check the status of your vehicles and scheduled test drvies.' });
-      res.render('add', { success: success, navBarLinks: utils.navBarFiller(res) });
-
+      db.make.findAll({})
+        .then((carMake) => {
+          const carMakeArray = [];
+          carMake.forEach((element) => {
+            const carMakeObject = {
+              carMakeName: element.dataValues.make,
+              carMakeId: element.dataValues.id,
+            };
+            carMakeArray.push(carMakeObject);
+          });
+          res.render('add', { success: success, carMakeArray: carMakeArray, navBarLinks: utils.navBarFiller(res) });
+        })
     });
 
   }

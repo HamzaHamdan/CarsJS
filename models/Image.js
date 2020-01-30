@@ -6,10 +6,6 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: DataTypes.UUIDV4,
             allowNull: false
         },
-        carVinNum: {
-            type: DataTypes.STRING,
-            required: true
-        },
         image: {
             type: DataTypes.STRING,
         }

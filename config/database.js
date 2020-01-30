@@ -33,13 +33,14 @@ db.make.hasMany(db.car, { onUpdate: 'CASCADE', onDelete: 'CASCADE', hooks: true 
 db.model.hasMany(db.car, { onUpdate: 'CASCADE', onDelete: 'CASCADE', hooks: true });
 db.user.hasMany(db.car, { onUpdate: 'CASCADE', onDelete: 'CASCADE', hooks: true });
 db.car.hasMany(db.schedule, { onUpdate: 'CASCADE', onDelete: 'CASCADE', hooks: true });
+db.car.hasMany(db.image, { onUpdate: 'CASCADE', onDelete: 'CASCADE', hooks: true });
 
 db.model.belongsTo(db.make, { foreignKey: { name: 'carMakeId' } });
 db.car.belongsTo(db.make, { foreignKey: { name: 'carMakeId' } });
 db.car.belongsTo(db.model), { foreignKey: { name: 'carModelId' } };
 db.car.belongsTo(db.user, { foreignKey: { name: 'userId' } });
 db.schedule.belongsTo(db.car, { foreignKey: { name: 'carId' } });
-//db.image.belongsTo(db.car, { foreignKey: { name: 'carVinNum' } });
+db.image.belongsTo(db.car, { foreignKey: { name: 'carId' } });
 
 
 module.exports = db;
