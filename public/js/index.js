@@ -100,7 +100,7 @@ $(document).ready(function () {
             type: "DELETE"
         }).then(
             function () {
-                console.log("created new burger");
+                console.log("make deleted!");
             }
         );
     });
@@ -128,7 +128,7 @@ $(document).ready(function () {
             }
         }).then(
             function () {
-                console.log("created new model!");
+                console.log("test drive deleted!");
                 // Reload the page to get the updated list
                 location.reload();
             }
@@ -202,9 +202,9 @@ $(document).ready(function () {
             }
         }).then(
             function () {
-                console.log("created new burger");
+                console.log("vehicle deleted!");
                 // Reload the page to get the updated list
-                //location.reload();
+                location.reload();
             }
         );
     });
