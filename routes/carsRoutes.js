@@ -297,7 +297,7 @@ router.post('/detailedview', upload.array('carImagesUploader', 5), (req, res, ne
     };
 
 
-    if (process.env.AWS_ENV_VAR) {
+    if (process.env.AWS_ACCESS_ID) {
 
 
       db.car.create(newCar).then((result) => {
