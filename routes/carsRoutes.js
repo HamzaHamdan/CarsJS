@@ -5,21 +5,48 @@ const multer = require('multer');
 const db = require('../config/database');
 const utils = require('../utils/utils');
 const moment = require('moment');
-var promise = require('promise');
+const multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
 
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 
-//images upload to the server
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'public/uploads')
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now())
-  }
-})
+let upload, s3, storage;
 
-var upload = multer({ storage: storage });
+if (process.env.AWS_ACCESS_ID) {
+
+  s3 = new AWS.S3({
+    accessKeyId: process.env.AWS_ACCESS_ID,
+    secretAccessKey: process.env.AWS_ACCESS_KEY,
+    region: 'us-east-2'
+  });
+
+  upload = multer({
+    storage: multerS3({
+      s3: s3,
+      bucket: 'wheels-bucket',
+      acl: 'public-read-write',
+      key: function (req, file, cb) {
+        cb(null, Date.now().toString())
+      }
+    })
+  });
+
+} else {
+
+
+  storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'public/uploads')
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now())
+    }
+  })
+
+  upload = multer({ storage: storage });
+
+
+}
 
 router.get('/add', ensureAuthenticated, (req, res) => {
   db.make.findAll({})
@@ -131,21 +158,6 @@ router.post('/search', function (req, res) {
   }
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 router.get('/bookings/:carId/:vinNum', function (req, res) {
   const carDetailsObject = { carId: req.params.carId, vinNum: req.params.vinNum };
 
@@ -165,7 +177,7 @@ router.post('/scheduleTestDrive', (req, res) => {
       vinNum: req.body.vinNumber,
       carId: req.body.carId
     }
-    res.render('bookdrive', { errors, carDetailsObject: carDetailsObject });
+    res.render('bookdrive', { errors, carDetailsObject: carDetailsObject, navBarLinks: utils.navBarFiller(res) });
   } else {
     const schedule = {
       date: req.body.dateFieldSearchFrom,
@@ -226,6 +238,7 @@ router.get('/viewMoreDetails/:carId', function (req, res) {
       model: element.dataValues.carModel.dataValues.model
     };
 
+
     db.image.findAll({ where: { carId: element.dataValues.id } }).then((imageResult) => {
       imageResult.forEach((imageElement) => {
         //console.log(imageElement.dataValues.image.replace('\public', ''));
@@ -283,27 +296,83 @@ router.post('/detailedview', upload.array('carImagesUploader', 5), (req, res, ne
       userId: res.locals.currentUser
     };
 
-    db.car.create(newCar).then((result) => {
-      files.forEach(function (element) {
-        db.image.create({ image: element.path, carId: result.dataValues.id }).then(() => {
-        });
-      });
-    }).then(function () {
-      let success = [];
-      success.push({ msg: 'Your vehicle was added successfuly to the system. You can add another vehicle or use My Vehicles and Test Drives links above to check the status of your vehicles and scheduled test drvies.' });
-      db.make.findAll({})
-        .then((carMake) => {
-          const carMakeArray = [];
-          carMake.forEach((element) => {
-            const carMakeObject = {
-              carMakeName: element.dataValues.make,
-              carMakeId: element.dataValues.id,
-            };
-            carMakeArray.push(carMakeObject);
+
+    if (process.env.AWS_ENV_VAR) {
+
+
+      db.car.create(newCar).then((result) => {
+        files.forEach(function (element) {
+          db.image.create({ image: element.location, carId: result.dataValues.id }).then(() => {
           });
-          res.render('add', { success: success, carMakeArray: carMakeArray, navBarLinks: utils.navBarFiller(res) });
-        })
-    });
+        });
+      }).then(function () {
+        let success = [];
+        success.push({ msg: 'Your vehicle was added successfuly to the system. You can add another vehicle or use My Vehicles and Test Drives links above to check the status of your vehicles and scheduled test drvies.' });
+        db.make.findAll({})
+          .then((carMake) => {
+            const carMakeArray = [];
+            carMake.forEach((element) => {
+              const carMakeObject = {
+                carMakeName: element.dataValues.make,
+                carMakeId: element.dataValues.id,
+              };
+              carMakeArray.push(carMakeObject);
+            });
+            res.render('add', { success: success, carMakeArray: carMakeArray, navBarLinks: utils.navBarFiller(res) });
+          })
+      });
+
+
+
+
+    } else {
+
+
+
+
+
+
+
+
+
+
+
+      db.car.create(newCar).then((result) => {
+        files.forEach(function (element) {
+          db.image.create({ image: element.path, carId: result.dataValues.id }).then(() => {
+          });
+        });
+      }).then(function () {
+        let success = [];
+        success.push({ msg: 'Your vehicle was added successfuly to the system. You can add another vehicle or use My Vehicles and Test Drives links above to check the status of your vehicles and scheduled test drvies.' });
+        db.make.findAll({})
+          .then((carMake) => {
+            const carMakeArray = [];
+            carMake.forEach((element) => {
+              const carMakeObject = {
+                carMakeName: element.dataValues.make,
+                carMakeId: element.dataValues.id,
+              };
+              carMakeArray.push(carMakeObject);
+            });
+            res.render('add', { success: success, carMakeArray: carMakeArray, navBarLinks: utils.navBarFiller(res) });
+          })
+      });
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
 
   }
 });
